@@ -1,0 +1,23 @@
+.carousel-control-prev,
+.carousel-control-next {
+  color: #000; /* Black color for the buttons */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: #000; /* Black color for the icon background */
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+  color: #fff; /* White color on hover */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 16 16'%3E%3Cpath d='M12.354 1.646a.5.5 0 01.708.708l-8 8a.5.5 0 01-.708 0l-8-8a.5.5 0 01.708-.708L8 9.293l4.646-4.647z'/%3E%3C/svg%3E");
+}
+
+.carousel-control-next-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 16 16'%3E%3Cpath d='M3.646 1.646a.5.5 0 01.708 0l8 8a.5.5 0 010 .708l-8 8a.5.5 0 01-.708-.708L7.293 8 2.646 3.354a.5.5 0 010-.708z'/%3E%3C/svg%3E");
+}
