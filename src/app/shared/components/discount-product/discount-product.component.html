@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 d-flex align-items-center justify-content-center">
+            <ul class="nav categories-filter">
+                <li class="nav-item">
+                    <a class="nav-link" [class.active]="selectedCategory === 'Best Seller'"
+                        (click)="filterProducts('Best Seller')">Best Seller</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [class.active]="selectedCategory === 'New Arrivals'"
+                        (click)="filterProducts('New Arrivals')">New Arrivals</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [class.active]="selectedCategory === 'Hot Sales'"
+                        (click)="filterProducts('Hot Sales')">Hot Sales</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-lg-4">
+            <div class="product-image">
+                <img src="assets/images/maintenance.png" alt="Product Image">
+                <div class="product-offer">
+                    <span>50% OFF</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 categories__deal__countdown">
+            <span>Deal Of The Week</span>
+            <h2>{{ product.name }}</h2>
+            <p>{{ product.description }}</p>
+            <div class="categories__deal__countdown__timer" id="countdown">
+                <div class="cd-item"><span>{{ countdown.days }}</span>
+                    <p>Days</p>
+                </div>
+                <div class="cd-item"><span>{{ countdown.hours }}</span>
+                    <p>Hours</p>
+                </div>
+                <div class="cd-item"><span>{{ countdown.minutes }}</span>
+                    <p>Minutes</p>
+                </div>
+                <div class="cd-item"><span>{{ countdown.seconds }}</span>
+                    <p>Seconds</p>
+                </div>
+            </div>
+            <a href="#" class="primary-btn">Shop now</a>
+        </div>
+    </div>
+</div>
