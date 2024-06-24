@@ -1,11 +1,12 @@
 .categories-filter {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     list-style-type: none;
     padding: 0;
 
     .nav-item {
-        margin: 0 10px;
+        margin: 10px 0; // Adjusted to provide vertical spacing between items
 
         .nav-link {
             padding: 10px 15px;
@@ -47,12 +48,11 @@
         padding: 5px 10px;
         border-radius: 50%;
         font-weight: bold;
-        z-index: 10; /* Ensure it's above the image */
+        z-index: 10;
     }
 }
 
 .categories__deal__countdown {
-    background-color: #f9f9f9; /* Background color */
     padding: 20px;
     text-align: center;
     display: flex;
@@ -115,8 +115,36 @@
     }
 }
 
+.custom-background {
+    background: linear-gradient(to right, #ff7e5f, #feb47b);
+}
+
 @media (max-width: 991px) {
     .categories-filter {
+        background-color: white;
+    }
+
+    .col-lg-4 {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .position-relative {
+        position: static !important;
+        width: 100%;
         margin-bottom: 20px;
+    }
+
+    .overlap-content {
+        position: static !important;
+        left: 0 !important;
+        transform: none !important;
+        width: 100%;
+    }
+
+    .col-8,
+    .col-4 {
+        width: 100% !important;
+        margin-left: 0;
     }
 }

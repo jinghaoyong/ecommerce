@@ -1,0 +1,25 @@
+.socialmedia {
+    padding-top: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.image-grid {
+
+    grid-template-columns: repeat(4, 1fr); /* 4 columns with equal width */
+    grid-gap: 0; /* No gap between images */
+   
+    border-style: solid;
+}
+
+.image-grid img {
+    justify-content: center;
+    text-align: center;
+    align-self: center;
+    align-items: center;
+    width: 100%; /* Ensure images fill their grid cell */
+    height: auto;
+    border: 1;
+    border-style: solid;
+}
