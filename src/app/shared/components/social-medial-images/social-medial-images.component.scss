@@ -6,20 +6,23 @@
 }
 
 .image-grid {
-
+    display: grid;
     grid-template-columns: repeat(4, 1fr); /* 4 columns with equal width */
     grid-gap: 0; /* No gap between images */
-   
     border-style: solid;
+
+    @media (max-width: 768px) {
+        display: flex;
+        flex-wrap: wrap;
+    }
 }
 
 .image-grid img {
-    justify-content: center;
-    text-align: center;
-    align-self: center;
-    align-items: center;
     width: 100%; /* Ensure images fill their grid cell */
     height: auto;
-    border: 1;
-    border-style: solid;
+    border: 1px solid; /* Adjust border style */
+    
+    @media (max-width: 768px) {
+        flex: 0 0 50%; /* Two images per row */
+    }
 }
