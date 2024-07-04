@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FirebaseService } from '../../../core/services/firebase.service';
+import { UserData } from '../../../core/interfaces/@type';
 
 @Component({
   selector: 'app-navbar',
@@ -10,6 +11,8 @@ import { FirebaseService } from '../../../core/services/firebase.service';
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent implements OnInit {
+
+  currentUser?: UserData;
 
   constructor(private firebaseServ: FirebaseService) { }
 
@@ -21,7 +24,10 @@ export class NavbarComponent implements OnInit {
     return true; // Replace with your actual logic
   }
   async signInWithGoogle() {
-    this.firebaseServ.googleLoginUser()
+    const userData = await this.firebaseServ.googleLoginUser();
+    console.log("userDAta from firebaseServ", userData)
+    this.currentUser = this.firebaseServ.currentUserValue;
+    console.log("currentUser", this.currentUser)
   }
 
 }

@@ -4,10 +4,11 @@ import { collection, addDoc, getDocs, getFirestore, doc, setDoc, getDoc, query, 
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { environment } from '../../../environments/environment';
 import { Chatroom, Messages, UserData } from '../interfaces/@type';
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithPopup, User } from 'firebase/auth';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 // Initialize Firebase
-const app = initializeApp(environment.firebaseProject_);
+const app = initializeApp(environment.firebaseProject_message);
 const db = getFirestore(app);
 // // Initialize Firebase Cloud Messaging and get a reference to the service
 // const messaging = getMessaging(app);
@@ -18,7 +19,21 @@ const auth = getAuth();
 })
 export class FirebaseService {
 
-  constructor() { }
+  private currentUserSubject: BehaviorSubject<any>;
+  public currentUser: Observable<User>;
+
+  constructor() {
+    const currentUserString = localStorage.getItem('currentUser');
+    const currentUser: User | null = currentUserString ? JSON.parse(currentUserString) : null;
+
+    this.currentUserSubject = new BehaviorSubject<any>(currentUser);
+
+    this.currentUser = this.currentUserSubject.asObservable();
+  }
+
+  public get currentUserValue(): UserData {
+    return this.currentUserSubject.value;
+  }
 
   async getUserData(userIds: string[]): Promise<Record<string, UserData>> {
     const userData: Record<string, UserData> = {};
@@ -68,6 +83,10 @@ export class FirebaseService {
             password: '',
             createdAt: Timestamp.now()
           };
+          console.log(`    this.currentUserSubject.next(userData);`, userData)
+          localStorage.setItem('currentUser', JSON.stringify(userData));
+          this.currentUserSubject.next(userData);
+       
           await this.createUserData(userData);
           return userData;
         } else {
@@ -114,6 +133,11 @@ export class FirebaseService {
     }
   }
 
+  logout() {
+    // remove user from local storage to log user out
+    localStorage.removeItem('currentUser');
+    this.currentUserSubject.next(null);
+  }
 
   async sendMessage(chatroomId: string, message: string, senderId: string, senderName: string, readStatus: boolean): Promise<void> {
     const messagesRef = collection(db, `chatrooms/${chatroomId}/messages`);
