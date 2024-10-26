@@ -2,21 +2,28 @@ import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FirebaseService } from '../../../core/services/firebase.service';
 import { UserData } from '../../../core/interfaces/@type';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent implements OnInit {
 
   currentUser?: UserData;
+  fallbackImage?: 'https://cdn-icons-png.flaticon.com/512/6596/6596121.png'
 
-  constructor(private firebaseServ: FirebaseService) { }
+  constructor(private firebaseServ: FirebaseService) {
+    this.currentUser = this.firebaseServ.currentUserValue;
+  }
 
   ngOnInit(): void {
+    console.log("currentUser", this.firebaseServ.currentUserValue)
+    this.currentUser = this.firebaseServ.currentUserValue;
+    console.log("currentUser", this.currentUser)
   }
 
   loggedIn(): boolean {
@@ -29,5 +36,11 @@ export class NavbarComponent implements OnInit {
     this.currentUser = this.firebaseServ.currentUserValue;
     console.log("currentUser", this.currentUser)
   }
+
+  handleImageError(event: Event) {
+    const imgElement = event.target as HTMLImageElement;
+    if (imgElement.src && this.fallbackImage) imgElement.src = this.fallbackImage;
+  }
+
 
 }

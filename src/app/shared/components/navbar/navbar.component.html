@@ -41,13 +41,19 @@
               search
               </span>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="!currentUser">
             <!-- <a class="nav-link" [routerLink]="['/login']" >Login</a> -->
             <button type="button" (click)="signInWithGoogle()" class="btn btn-outline-danger">Sign in with Google</button>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="currentUser" style="background-color: aqua; justify-content: center; align-items: center;">
             <!-- <span class="material-icons">home</span> -->
-            <img src="dummy-user-image-url" alt="User" class="user-avatar">
+             <span *ngIf="currentUser?.userName" style="color: white;">{{currentUser.userName}}</span>
+             <img [src]="currentUser.userImage || fallbackImage"
+             alt="User"
+             class="user-avatar"
+             width="25" height="25"
+             style="border-radius: 50%; padding-left: 2%;"
+             (error)="handleImageError($event)">
           </li>
         </ul>
       </div>

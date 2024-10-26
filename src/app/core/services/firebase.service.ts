@@ -2,16 +2,14 @@ import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { collection, addDoc, getDocs, getFirestore, doc, setDoc, getDoc, query, where, orderBy, Timestamp, onSnapshot, updateDoc, DocumentData, QuerySnapshot, QueryDocumentSnapshot, Unsubscribe } from "firebase/firestore";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment.development';
 import { Chatroom, Messages, UserData } from '../interfaces/@type';
 import { getAuth, GoogleAuthProvider, signInWithPopup, User } from 'firebase/auth';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 // Initialize Firebase
-const app = initializeApp(environment.firebaseProject_message);
+const app = initializeApp(environment.firebaseConfig);
 const db = getFirestore(app);
-// // Initialize Firebase Cloud Messaging and get a reference to the service
-// const messaging = getMessaging(app);
 const auth = getAuth();
 
 @Injectable({
@@ -27,6 +25,11 @@ export class FirebaseService {
     const currentUser: User | null = currentUserString ? JSON.parse(currentUserString) : null;
 
     this.currentUserSubject = new BehaviorSubject<any>(currentUser);
+
+    // Subscribe to changes and update localStorage
+    this.currentUserSubject.subscribe(user => {
+      localStorage.setItem('currentUser', JSON.stringify(user));
+    });
 
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -47,7 +50,6 @@ export class FirebaseService {
 
     return userData;
   }
-
 
   async createUserData(userData: UserData): Promise<void> {
     try {
@@ -83,14 +85,16 @@ export class FirebaseService {
             password: '',
             createdAt: Timestamp.now()
           };
-          console.log(`    this.currentUserSubject.next(userData);`, userData)
           localStorage.setItem('currentUser', JSON.stringify(userData));
           this.currentUserSubject.next(userData);
-       
+
           await this.createUserData(userData);
           return userData;
         } else {
-          return querySnapshot.docs[0].data() as UserData;
+          const existingUserData = querySnapshot.docs[0].data() as UserData;
+          localStorage.setItem('currentUser', JSON.stringify(existingUserData));
+          this.currentUserSubject.next(existingUserData);
+          return existingUserData;
         }
       }
 
@@ -121,6 +125,8 @@ export class FirebaseService {
       });
 
       if (userData) {
+        localStorage.setItem('currentUser', JSON.stringify(userData));
+        this.currentUserSubject.next(userData);
         console.log('User logged in successfully');
         return userData;
       } else {
@@ -232,47 +238,13 @@ export class FirebaseService {
       querySnapshot.forEach((docSnapshot: QueryDocumentSnapshot<DocumentData>) => {
         const message: Messages = docSnapshot.data() as Messages;
         if (message.senderId !== participantId && !message.readStatus) {
-          const messageRef = doc(db, `chatrooms/${chatroomId}/messages/${docSnapshot.id}`);
-          setDoc(messageRef, { readStatus: true }, { merge: true }).then(() => {
-          }).catch(error => {
-            console.error('Error marking message as read: ', error);
-          });
+          updateDoc(docSnapshot.ref, { readStatus: true });
         }
       });
-    }).catch(error => {
-      console.error('Error getting documents: ', error);
-    });
-  }
-
-
-  async updateLastMessage(chatroomId: string, message: string): Promise<void> {
-    const chatroomRef = doc(db, 'chatrooms', chatroomId);
-
-    await updateDoc(chatroomRef, {
-      lastMessage: message,
-    });
-  }
-
-  async getChatroomsByParticipant(participantId: string, callback: (chatrooms: Chatroom[]) => void): Promise<Unsubscribe> {
-    const chatroomsRef = collection(db, 'chatrooms');
-    const chatroomQuery = query(chatroomsRef, where(`participants.${participantId}.userId`, '==', participantId));
-
-    return onSnapshot(chatroomQuery, async (querySnapshot: QuerySnapshot<DocumentData>) => {
-      const chatrooms = querySnapshot.docs.map((doc: QueryDocumentSnapshot<DocumentData>) => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          ...data
-        } as Chatroom;
-      });
-
-      callback(chatrooms);
     });
   }
 
   private countUnreadMessages(messages: Messages[], participantId: string): number {
-    const unreadMessages = messages.filter(message => message.senderId !== participantId && !message.readStatus);
-    return unreadMessages.length;
+    return messages.filter((message: Messages) => message.senderId !== participantId && !message.readStatus).length;
   }
-
 }
