@@ -16,17 +16,16 @@
             <!-- <span class="material-icons">search</span> -->
             <a class="nav-link" href="#">Home</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
-          </li>
+         
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">
-              Dropdown
+              Shop By Category
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">All</a></li>
+              <li><a class="dropdown-item" href="#">Spefic Category 1</a></li>
+              <li><a class="dropdown-item" href="#">Spefic Category 2</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
@@ -34,27 +33,23 @@
         </ul>
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="#"><i class="bi bi-search"></i></a>
+            <a class="nav-link" href="#">About us</a>
           </li>
-          <li class="nav-item">
-            <span class="material-symbols-outlined">
-              search
-              </span>
-          </li>
+         
           <li class="nav-item" *ngIf="!currentUser">
             <!-- <a class="nav-link" [routerLink]="['/login']" >Login</a> -->
             <button type="button" (click)="signInWithGoogle()" class="btn btn-outline-danger">Sign in with Google</button>
           </li>
-          <li class="nav-item" *ngIf="currentUser" style="background-color: aqua; justify-content: center; align-items: center;">
-            <!-- <span class="material-icons">home</span> -->
-             <span *ngIf="currentUser?.userName" style="color: white;">{{currentUser.userName}}</span>
-             <img [src]="currentUser.userImage || fallbackImage"
-             alt="User"
-             class="user-avatar"
-             width="25" height="25"
-             style="border-radius: 50%; padding-left: 2%;"
-             (error)="handleImageError($event)">
-          </li>
+          <li class="nav-item user-info" *ngIf="currentUser">
+            <span class="material-icons user-icon">person</span>
+            <span *ngIf="currentUser?.userName" class="user-name">{{currentUser.userName}}</span>
+            <span class="material-icons arrow-icon">expand_more</span>
+            <!-- <img [src]="currentUser.userImage || fallbackImage"
+                alt="User"
+                class="user-avatar"
+                width="25" height="25"
+                (error)="handleImageError($event)"> -->
+        </li>
         </ul>
       </div>
     </div>

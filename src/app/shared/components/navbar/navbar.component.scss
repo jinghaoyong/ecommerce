@@ -1,4 +1,19 @@
-.material-icons {
-  font-size: 14px;
+.user-info {
+  display: flex;
+  align-items: center; /* Vertically center the items */
+  justify-content: center; /* Horizontally center the items */
+  padding: 0.5rem; /* Optional: add padding for better spacing */
+}
+
+.user-icon {
+  margin-right: 0.5rem; /* Add some space between the icon and the username */
+  color: white;
+}
+.arrow-icon {
+  font-size: 24px;
+  color: #333;
+}
+
+.user-name {
   color: white;
 }
