@@ -44,11 +44,64 @@ since now i using firebase as my backend, i got new collections to configure
     categories // string array to store
     views, // int, to make the best popular
     soldAmount, //int
+    topFavourite,// int
+    entryDate,
+    entryStaff,
+    offerDiscount,int or any type you recommend to put in firestore
+    lastEditedDate,
+    lastEditedStaff
+    } 
+- categories (get & insert & update & delete) , the body is {
+    id ,
+    images, // string array to store, the string you no need to worry, i will store into the place which firestore usually store and get the url
+    title,
+    desc,
+    subcategories // string array to store
     entryDate,
     entryStaff,
     lastEditedDate,
     lastEditedStaff
     } 
+- subCategories (get & insert & update & delete) , the body is {
+    id ,
+    images, // string array to store, the string you no need to worry, i will store into the place which firestore usually store and get the url
+    title,
+    desc,
+    entryDate,
+    entryStaff,
+    lastEditedDate,
+    lastEditedStaff
+    } 
+
+- aboutUs (get & insert & update & delete) , the body is {
+    images, // string array to store, the string you no need to worry, i will store into the place which firestore usually store and get the url
+    title,
+    desc,
+    entryDate,
+    entryStaff,
+    lastEditedDate,
+    lastEditedStaff
+  } 
+
+-socialMediaAccounts (get & insert & update & delete) , the body is {
+    imageLogo, // string array to store, the string you no need to worry, i will store into the place which firestore usually store and get the url
+    name,
+    linkUrl
+  } 
+  -enquiryForm (get & insert & update & delete) , the body is {
+    name,
+    phone
+    companyName,
+    product,
+    message
+  } 
+  -contact (get & insert & update & delete) , the body is {
+    email,
+    phone
+    address,
+    linkUrl
+  } 
+
 
 ## Todo
 firebase login logout and store in localstorage for the personal details with enctypted
