@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { collection, addDoc, getDocs, getFirestore, doc, setDoc, getDoc, query, where, orderBy, Timestamp, onSnapshot, updateDoc, DocumentData, QuerySnapshot, QueryDocumentSnapshot, Unsubscribe } from "firebase/firestore";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
-import { environment } from '../../../environments/environment.development';
+
 import { Chatroom, Messages, UserData } from '../interfaces/@type';
 import { getAuth, GoogleAuthProvider, signInWithPopup, User } from 'firebase/auth';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 // Initialize Firebase
-const app = initializeApp(environment.firebaseConfig);
+const app = initializeApp(environment.firebaseProject_);
 const db = getFirestore(app);
 const auth = getAuth();
 

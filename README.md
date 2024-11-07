@@ -26,6 +26,30 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
 
+## Todo Priority
+classify the firebase's service // using files to classify
+since now i using firebase as my backend, i got new collections to configure
+- banner (get & insert & update & delete) , the body is {
+    id ,
+    imageSrc,
+    title,
+    desc 
+    } 
+
+- product (get & insert & update & delete) , the body is {
+    id ,
+    images, // string array to store, the string you no need to worry, i will store into the place which firestore usually store and get the url
+    title,
+    desc,
+    categories // string array to store
+    views, // int, to make the best popular
+    soldAmount, //int
+    entryDate,
+    entryStaff,
+    lastEditedDate,
+    lastEditedStaff
+    } 
+
 ## Todo
 firebase login logout and store in localstorage for the personal details with enctypted
 prefix translate
@@ -33,3 +57,15 @@ lazy loading
 ngrx angular
 automatically angular testing
 strucutre re-do
+
+
+## env file environment.ts
+export const environment = {
+  production: false,
+  defaultauth: 'fackbackend',
+  firebaseProject_: { // for messaging
+  },
+  firebaseProject_notification: { // for notification
+  }
+};
+
