@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { FirebaseService } from '../../../core/services/firebase.service';
 import { UserData } from '../../../core/interfaces/@type';
 import { CommonModule } from '@angular/common';
+import { TitlestringService } from '../../../core/services/titleString/titlestring.service';
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +17,12 @@ export class NavbarComponent implements OnInit {
   currentUser?: UserData;
   fallbackImage?: 'https://cdn-icons-png.flaticon.com/512/6596/6596121.png'
 
-  constructor(private firebaseServ: FirebaseService) {
+  titleString?: any[];
+
+  constructor(
+    private firebaseServ: FirebaseService,
+    private titleStringServ: TitlestringService
+  ) {
     this.currentUser = this.firebaseServ.currentUserValue;
   }
 
@@ -24,7 +30,16 @@ export class NavbarComponent implements OnInit {
     console.log("currentUser", this.firebaseServ.currentUserValue)
     this.currentUser = this.firebaseServ.currentUserValue;
     console.log("currentUser", this.currentUser)
+
+    this.loadTitleString();
+    
   }
+
+  async loadTitleString() {
+    this.titleString = await this.titleStringServ.getTitleString();
+    console.log("loadTitleString",this.titleString)
+  }
+
 
   loggedIn(): boolean {
     // Implement your logic to check if user is logged in

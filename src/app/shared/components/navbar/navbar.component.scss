@@ -17,3 +17,24 @@
 .user-name {
   color: white;
 }
+
+.top-bar {
+  position: relative;
+  overflow: hidden; /* Hide overflow content */
+}
+
+.scrolling-text {
+  display: inline-block;
+  white-space: nowrap; /* Prevent the text from wrapping */
+  animation: scroll-left 10s linear infinite; /* Animation name, duration, timing function, and loop */
+}
+
+/* Define the animation to slide the text */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(100%); /* Start at the right side of the container */
+  }
+  100% {
+    transform: translateX(-100%); /* End at the left side of the container */
+  }
+}
