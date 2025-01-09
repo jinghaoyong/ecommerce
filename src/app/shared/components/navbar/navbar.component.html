@@ -43,7 +43,10 @@
           <li class="nav-item user-info" *ngIf="currentUser">
             <span class="material-icons user-icon">person</span>
             <span *ngIf="currentUser?.userName" class="user-name">{{currentUser.userName}}</span>
-            <span class="material-icons arrow-icon">expand_more</span>
+            <ul class="dropdown-menu dropdown-menu-end">
+         
+              <li><a class="dropdown-item" (click)="onLogout()">Logout</a></li>
+          </ul>
             <!-- <img [src]="currentUser.userImage || fallbackImage"
                 alt="User"
                 class="user-avatar"

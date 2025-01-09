@@ -57,5 +57,11 @@ export class NavbarComponent implements OnInit {
     if (imgElement.src && this.fallbackImage) imgElement.src = this.fallbackImage;
   }
 
+  onLogout(): void {
+    // this.authServ.logout();
+    // this.router.navigateByUrl('/')
+    this.firebaseServ.logout();
+  }
+
 
 }
