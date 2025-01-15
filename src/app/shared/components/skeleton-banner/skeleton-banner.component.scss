@@ -1,0 +1,41 @@
+.skeleton-banner {
+  width: 100%;
+  height: 600px; /* Adjust based on your banner height */
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+
+  .skeleton-image {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+  }
+
+  .skeleton-caption {
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    width: 80%;
+
+    .skeleton-line {
+      height: 20px;
+      width: 50%;
+      background-color: transparent;
+      background: linear-gradient(90deg, #c0c0c0 25%, #dcdcdc 50%, #c0c0c0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+  }
+}
+
+/* Keyframes for shimmer effect */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
