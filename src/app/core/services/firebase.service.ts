@@ -7,6 +7,7 @@ import { Chatroom, Messages, UserData } from '../interfaces/@type';
 import { getAuth, GoogleAuthProvider, signInWithPopup, User } from 'firebase/auth';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { LocalstorageService } from '../../shared/services/localstorage/localstorage.service';
 
 // Initialize Firebase
 const app = initializeApp(environment.firebaseProject_);
@@ -21,15 +22,17 @@ export class FirebaseService {
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<User>;
 
-  constructor() {
-    const currentUserString = localStorage.getItem('currentUser');
+  constructor(
+    private localStorageServ: LocalstorageService
+  ) {
+    const currentUserString = this.localStorageServ.getCurrentUser();
     const currentUser: User | null = currentUserString ? JSON.parse(currentUserString) : null;
 
     this.currentUserSubject = new BehaviorSubject<any>(currentUser);
 
     // Subscribe to changes and update localStorage
     this.currentUserSubject.subscribe(user => {
-      localStorage.setItem('currentUser', JSON.stringify(user));
+      this.localStorageServ.setCurrentUser(user);
     });
 
     this.currentUser = this.currentUserSubject.asObservable();
@@ -86,14 +89,14 @@ export class FirebaseService {
             password: '',
             createdAt: Timestamp.now()
           };
-          localStorage.setItem('currentUser', JSON.stringify(userData));
+          this.localStorageServ.setCurrentUser(userData);
           this.currentUserSubject.next(userData);
 
           await this.createUserData(userData);
           return userData;
         } else {
           const existingUserData = querySnapshot.docs[0].data() as UserData;
-          localStorage.setItem('currentUser', JSON.stringify(existingUserData));
+          this.localStorageServ.setCurrentUser(existingUserData);
           this.currentUserSubject.next(existingUserData);
           return existingUserData;
         }
@@ -126,7 +129,7 @@ export class FirebaseService {
       });
 
       if (userData) {
-        localStorage.setItem('currentUser', JSON.stringify(userData));
+        this.localStorageServ.setCurrentUser(userData);
         this.currentUserSubject.next(userData);
         console.log('User logged in successfully');
         return userData;
@@ -142,7 +145,7 @@ export class FirebaseService {
 
   logout() {
     // remove user from local storage to log user out
-    localStorage.removeItem('currentUser');
+    this.localStorageServ.clearCurrentUser();
     this.currentUserSubject.next(null);
   }
 

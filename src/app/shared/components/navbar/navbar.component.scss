@@ -1,3 +1,5 @@
+@import './../../../../styles';
+
 .user-info {
   display: flex;
   align-items: center; /* Vertically center the items */
@@ -37,4 +39,12 @@
   100% {
     transform: translateX(-100%); /* End at the left side of the container */
   }
+}
+
+.navbar-theme{
+  background-color: $primary-color;
+}
+
+.text-color{
+  color: $secondary-color;
 }

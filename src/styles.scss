@@ -4,3 +4,18 @@
     padding-top: 5%;
     padding-bottom: 5%;
 }
+
+// src/styles.scss
+
+// Define SCSS variables
+$primary-color: #FAF6EA;
+$secondary-color: #665F57;
+// $font-stack: 'Roboto', sans-serif;
+
+// Example mixin
+@mixin center-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
