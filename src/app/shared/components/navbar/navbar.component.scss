@@ -2,15 +2,20 @@
 
 .user-info {
   display: flex;
-  align-items: center; /* Vertically center the items */
-  justify-content: center; /* Horizontally center the items */
-  padding: 0.5rem; /* Optional: add padding for better spacing */
+  align-items: center;
+  /* Vertically center the items */
+  justify-content: center;
+  /* Horizontally center the items */
+  padding: 0.5rem;
+  /* Optional: add padding for better spacing */
 }
 
 .user-icon {
-  margin-right: 0.5rem; /* Add some space between the icon and the username */
+  margin-right: 0.5rem;
+  /* Add some space between the icon and the username */
   color: white;
 }
+
 .arrow-icon {
   font-size: 24px;
   color: #333;
@@ -22,29 +27,46 @@
 
 .top-bar {
   position: relative;
-  overflow: hidden; /* Hide overflow content */
+  overflow: hidden;
+  /* Hide overflow content */
 }
 
 .scrolling-text {
   display: inline-block;
-  white-space: nowrap; /* Prevent the text from wrapping */
-  animation: scroll-left 10s linear infinite; /* Animation name, duration, timing function, and loop */
+  white-space: nowrap;
+  /* Prevent the text from wrapping */
+  animation: scroll-left 10s linear infinite;
+  /* Animation name, duration, timing function, and loop */
 }
 
 /* Define the animation to slide the text */
 @keyframes scroll-left {
   0% {
-    transform: translateX(100%); /* Start at the right side of the container */
+    transform: translateX(100%);
+    /* Start at the right side of the container */
   }
+
   100% {
-    transform: translateX(-100%); /* End at the left side of the container */
+    transform: translateX(-100%);
+    /* End at the left side of the container */
   }
 }
 
-.navbar-theme{
+.navbar-theme {
   background-color: $primary-color;
+
+  &:hover {
+    color: $secondary-color;
+  }
+  a {
+    color: $secondary-color; // Change text color on hover
+
+    &:hover {
+      color: $secondary-color; // Change text color on hover
+    }
+  }
 }
 
-.text-color{
+.text-color {
   color: $secondary-color;
 }
