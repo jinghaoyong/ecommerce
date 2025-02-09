@@ -53,8 +53,8 @@
 }
 
 .navbar-theme {
+  height: 15vh;
   background-color: $primary-color;
-
   &:hover {
     color: $secondary-color;
   }
@@ -65,6 +65,13 @@
       color: $secondary-color; // Change text color on hover
     }
   }
+}
+
+.sticky-top{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1030; // Bootstrap's default for navbar
 }
 
 .text-color {

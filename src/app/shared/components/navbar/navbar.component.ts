@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { FirebaseService } from '../../../core/services/firebase.service';
 import { UserData } from '../../../core/interfaces/@type';
 import { CommonModule } from '@angular/common';
@@ -13,6 +13,7 @@ import { TitlestringService } from '../../../core/services/titleString/titlestri
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent implements OnInit {
+  isStickyNav = false; // Default is non-sticky
 
   currentUser?: UserData;
   fallbackImage?: 'https://cdn-icons-png.flaticon.com/512/6596/6596121.png'
@@ -21,15 +22,32 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private firebaseServ: FirebaseService,
-    private titleStringServ: TitlestringService
+    private titleStringServ: TitlestringService,
+    private router: Router
   ) {
     this.currentUser = this.firebaseServ.currentUserValue;
   }
 
   ngOnInit(): void {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        console.log("event.url",event.url)
+       
+        // Define pages where navbar should be sticky
+        // const stickyPages = ['/', '/shop']; // Add paths where navbar should be sticky
+        const stickyPages = ['/']; // Add paths where navbar should be sticky
+        this.isStickyNav = stickyPages.includes(event.url);
+        console.log("stickyPages.includes(event.url)",stickyPages.includes(event.url))
+      }
+    });
+
     console.log("currentUser", this.firebaseServ.currentUserValue)
     this.currentUser = this.firebaseServ.currentUserValue;
     console.log("currentUser", this.currentUser)
+
+  
+
+
 
     this.loadTitleString();
     
