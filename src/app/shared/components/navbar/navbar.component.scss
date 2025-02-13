@@ -55,6 +55,8 @@
 .navbar-theme {
   height: 15vh;
   background-color: $primary-color;
+  font-family: $font-stack;
+
   &:hover {
     color: $secondary-color;
   }

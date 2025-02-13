@@ -25,8 +25,7 @@ export class FirebaseService {
   constructor(
     private localStorageServ: LocalstorageService
   ) {
-    const currentUserString = this.localStorageServ.getCurrentUser();
-    const currentUser: User | null = currentUserString ? JSON.parse(currentUserString) : null;
+    const currentUser = this.localStorageServ.getCurrentUser();
 
     this.currentUserSubject = new BehaviorSubject<any>(currentUser);
 
