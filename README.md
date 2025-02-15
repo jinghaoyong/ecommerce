@@ -108,6 +108,7 @@ firebase login logout and store in localstorage for the personal details with en
 public scss variable which can be use everywhere when we just only need to do is `import ./style.scss`✅
 navbar become responsive and always stay top when scroll to bottom, and being common which can be dynamically repalced the title, image and theme colour✅ 
 font variable decared in style.scss and can be use everywhere✅ 
+prefix translate of nav bar ✅
 ## Pending To do
 prefix translate
 lazy loading
@@ -116,7 +117,7 @@ ngrx angular
 automatically angular testing
 strucutre re-do
 ## Pending Small Task
-🔜 prefix translate of nav bar
+🔜 add chinese and melayu language for nav bar
 
 ## env file environment.ts
 export const environment = {

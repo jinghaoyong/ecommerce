@@ -25,9 +25,12 @@ export class NavbarComponent implements OnInit {
   constructor(
     private firebaseServ: FirebaseService,
     private titleStringServ: TitlestringService,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) {
     this.currentUser = this.firebaseServ.currentUserValue;
+    this.translate.setDefaultLang('en'); // Set default language
+    this.translate.use('en'); // Use English initially
   }
 
   ngOnInit(): void {
@@ -75,6 +78,10 @@ export class NavbarComponent implements OnInit {
   handleImageError(event: Event) {
     const imgElement = event.target as HTMLImageElement;
     if (imgElement.src && this.fallbackImage) imgElement.src = this.fallbackImage;
+  }
+
+  changeLanguage(lang: string) {
+    this.translate.use(lang);
   }
 
   onLogout(): void {
