@@ -5,11 +5,12 @@ import { UserData } from '../../../core/interfaces/@type';
 import { CommonModule } from '@angular/common';
 import { TitlestringService } from '../../../core/services/titleString/titlestring.service';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterModule, CommonModule, TranslateModule],
+  imports: [RouterModule, CommonModule, TranslateModule, FormsModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
@@ -21,6 +22,15 @@ export class NavbarComponent implements OnInit {
   fallbackImage?: 'https://cdn-icons-png.flaticon.com/512/6596/6596121.png'
 
   titleString?: any[];
+
+  // for search bar and cateogires 
+  categories: string[] = [
+    "Powerbank", "Glad2glow", "Handbag", "Tumbler", "Rak Kasut",
+    "Skintific", "LEGO", "Pencil Case", "Earphone", "Bluetooth"
+  ];
+
+  searchQuery: string = "";
+
 
   constructor(
     private firebaseServ: FirebaseService,

@@ -1,29 +1,50 @@
 .carousel-control-prev,
 .carousel-control-next {
-  color: #000;
-  /* Black color for the buttons */
-}
-
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  background-color: #000;
-  /* Black color for the icon background */
+  color: #000; /* Black color for the buttons */
+  width: 15%; /* Adjust width if needed */
+  opacity: 0.8; /* Slight transparency */
+  transition: opacity 0.3s ease-in-out;
 }
 
 .carousel-control-prev:hover,
 .carousel-control-next:hover {
-  color: #fff;
-  /* White color on hover */
+  color: #fff; /* White color on hover */
+  opacity: 1; /* Full visibility on hover */
 }
 
+/* Black background for the icon */
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 16 16'%3E%3Cpath d='M12.354 1.646a.5.5 0 01.708.708l-8 8a.5.5 0 01-.708 0l-8-8a.5.5 0 01.708-.708L8 9.293l4.646-4.647z'/%3E%3C/svg%3E");
+  background-color: black;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease-in-out;
+  padding: 5%;
 }
 
-.carousel-control-next-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 16 16'%3E%3Cpath d='M3.646 1.646a.5.5 0 01.708 0l8 8a.5.5 0 010 .708l-8 8a.5.5 0 01-.708-.708L7.293 8 2.646 3.354a.5.5 0 010-.708z'/%3E%3C/svg%3E");
+/* Hover effect - change background to gray */
+.carousel-control-prev:hover .carousel-control-prev-icon,
+.carousel-control-next:hover .carousel-control-next-icon {
+  background-color: gray; /* Gray background on hover */
 }
+
+/* Add arrow effect */
+.carousel-control-prev-icon::before,
+.carousel-control-next-icon::before {
+  // content: '\2039'; /* Left arrow ‹ */
+  font-size: 24px;
+  font-weight: bold;
+  color: white; /* White icon */
+}
+
+.carousel-control-next-icon::before {
+  // content: '\203A'; /* Right arrow › */
+}
+
 
 #carouselExampleCaptions {
   width: 100%;
