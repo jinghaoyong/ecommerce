@@ -1,64 +1,55 @@
+@import './../../../../styles';
+
 .carousel-control-prev,
 .carousel-control-next {
-  color: #000; /* Black color for the buttons */
-  width: 15%; /* Adjust width if needed */
-  opacity: 0.8; /* Slight transparency */
-  transition: opacity 0.3s ease-in-out;
+  width: 8%; /* Adjust button size */
+  opacity: 0.9;
+  transition: opacity 0.3s ease, transform 0.2s ease;
 }
 
 .carousel-control-prev:hover,
 .carousel-control-next:hover {
-  color: #fff; /* White color on hover */
-  opacity: 1; /* Full visibility on hover */
+  opacity: 1;
+  transform: scale(1.1); /* Slight zoom effect */
 }
 
-/* Black background for the icon */
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.6); /* Transparent black */
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.3s ease-in-out;
-  padding: 5%;
+  width: 35px;
+  height: 35px;
+  background-size: 60%;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-/* Hover effect - change background to gray */
-.carousel-control-prev:hover .carousel-control-prev-icon,
-.carousel-control-next:hover .carousel-control-next-icon {
-  background-color: gray; /* Gray background on hover */
+.carousel-control-prev-icon {
+  background-image: url('data:image/svg+xml;charset=UTF8,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 16 16"%3E%3Cpath d="M11.354 1.146a.5.5 0 0 1 0 .708L5.707 8l5.647 6.146a.5.5 0 0 1-.708.708l-6-6.5a.5.5 0 0 1 0-.708l6-6.5a.5.5 0 0 1 .708 0z"/%3E%3C/svg%3E');
 }
 
-/* Add arrow effect */
-.carousel-control-prev-icon::before,
-.carousel-control-next-icon::before {
-  // content: '\2039'; /* Left arrow ‹ */
-  font-size: 24px;
-  font-weight: bold;
-  color: white; /* White icon */
+.carousel-control-next-icon {
+  background-image: url('data:image/svg+xml;charset=UTF8,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 16 16"%3E%3Cpath d="M4.646 1.146a.5.5 0 0 1 .708 0l6 6.5a.5.5 0 0 1 0 .708l-6 6.5a.5.5 0 0 1-.708-.708L10.293 8 4.646 1.854a.5.5 0 0 1 0-.708z"/%3E%3C/svg%3E');
 }
-
-.carousel-control-next-icon::before {
-  // content: '\203A'; /* Right arrow › */
-}
-
 
 #carouselExampleCaptions {
   width: 100%;
   max-width: 100%;
+
 }
+
+.carousel-caption {
+  background-color: $primary-color;
+  color: $secondary-color;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Perfect center */
+  text-align: center; /* Ensures the text is centered */
+}
+
 
 @media (min-width: 768px) {
   #carouselExampleCaptions .carousel-item img {
     height: 600px;
-    /* Upload Recommendations
-      When users upload banner images for your application, it's best to provide guidelines for the images to follow these dimensions:
-      
-      Minimum Image Size: 1600px width, 900px height (for high-resolution displays)
-      Aspect Ratio: 16:9 */
     object-fit: cover;
   }
 }

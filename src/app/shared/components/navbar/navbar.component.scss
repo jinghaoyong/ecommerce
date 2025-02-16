@@ -145,3 +145,80 @@
   font-size: 14px;
   cursor: pointer;
 }
+
+// Mobile responsive styles for search bar
+@media (max-width: 768px) {
+  .search-container {
+    width: 100%;
+    margin-top: 1%;
+    padding: 0 10px; // Add some padding for spacing
+  }
+
+  .search-box {
+    flex-direction: column;
+    border-radius: 0; // Remove rounded corners for mobile
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .search-box input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .search-dropdown {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    background: #f5f5f5;
+    border-top: 1px solid #ddd;
+  }
+
+  .search-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    background-color: $primary-color;
+    color: $secondary-color;
+    border-top: 1px solid #ddd;
+    margin-top: 0;
+  }
+
+  .category-list {
+    flex-direction: row;
+    overflow-x: auto; // Horizontal scroll for categories
+    gap: 5px;
+    padding: 5px 0;
+  }
+
+  .category-item {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  
+  .navbar-nav {
+    display: none;
+  }
+  .category-list{
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    background-color: $primary-color;
+    color: $secondary-color;
+    border-top: 1px solid #ddd;
+    margin-top: 0;
+  }
+}
+
+.navbar-toggler {
+  border-color: $secondary-color; // Optional: change the border color too
+  color: $secondary-color;
+  margin-right: 5%;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='black' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
