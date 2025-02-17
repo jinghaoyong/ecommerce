@@ -44,6 +44,7 @@
   left: 50%;
   transform: translate(-50%, -50%); /* Perfect center */
   text-align: center; /* Ensures the text is centered */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
 }
 
 
