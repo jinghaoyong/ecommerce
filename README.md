@@ -121,6 +121,7 @@ strucutre re-do
 add chinese and melayu language for nav bar
 ## Pending Small Task
 🔜 responsive nav bar
+🔜 shared service which make the navbar will whether hidden when scroll down
 
 ## env file environment.ts
 export const environment = {
