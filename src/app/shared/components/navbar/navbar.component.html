@@ -52,16 +52,23 @@
           <span class="material-icons user-icon text-color">shopping_cart</span>
           <span class="cart-badge">2</span>
         </li>
-        <li class="nav-item user-info" *ngIf="!currentUser">
+        <li class="nav-item user-info" *ngIf="!currentUser" >
           <button type="button" (click)="signInWithGoogle()" class="btn btn-outline-danger">Sign in with Google</button>
         </li>
-        <li class="nav-item user-info" *ngIf="currentUser" style="cursor: pointer;">
-          <span class="material-icons user-icon text-color">person</span>
-          <span *ngIf="currentUser?.userName" class="user-name text-color">{{currentUser?.userName}}</span>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" (click)="onLogout()">Logout</a></li>
-          </ul>
-        </li>
+        <li 
+        class="nav-item user-info position-relative nav-ml-2" 
+        *ngIf="currentUser" 
+        style="cursor: pointer;" 
+        data-bs-toggle="popover" 
+        data-bs-trigger="hover focus" 
+        data-bs-placement="bottom" 
+        data-bs-content="Click to view profile"
+      >
+        <span class="material-icons user-icon text-color">person</span>
+        <span *ngIf="currentUser?.userName" class="user-name text-color">{{ currentUser?.userName }}</span>
+      </li>
+      
+        
       </ul>
     </div>
   </div>

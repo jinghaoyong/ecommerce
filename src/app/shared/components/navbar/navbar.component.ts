@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { TitlestringService } from '../../../core/services/titleString/titlestring.service';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
+import { Tooltip, Popover } from 'bootstrap';
 
 @Component({
   selector: 'app-navbar',
@@ -60,12 +61,13 @@ export class NavbarComponent implements OnInit {
     this.currentUser = this.firebaseServ.currentUserValue;
     console.log("currentUser", this.currentUser)
 
-
-
-
-
     this.loadTitleString();
 
+  }
+
+  ngAfterViewInit(): void {
+    const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+    popoverTriggerList.map((popoverTriggerEl) => new Popover(popoverTriggerEl));
   }
 
   async loadTitleString() {
