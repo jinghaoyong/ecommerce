@@ -100,6 +100,7 @@ export class NavbarComponent implements OnInit {
     // this.authServ.logout();
     // this.router.navigateByUrl('/')
     this.firebaseServ.logout();
+    this.currentUser = this.firebaseServ.currentUserValue;
   }
 
 

@@ -78,7 +78,7 @@ export class FirebaseService {
         const usersRef = collection(db, 'users');
         const q = query(usersRef, where('email', '==', user.email));
         const querySnapshot = await getDocs(q);
-
+        this.startInactivityTimer(); // Start the 24-hour inactivity timer
         if (querySnapshot.empty) {
           const userData: UserData = {
             userId: user.uid,
@@ -143,6 +143,7 @@ export class FirebaseService {
   }
 
   logout() {
+    this.clearInactivityTimer(); // Clear the inactivity timer on logout
     // remove user from local storage to log user out
     this.localStorageServ.clearCurrentUser();
     this.currentUserSubject.next(null);
@@ -250,4 +251,47 @@ export class FirebaseService {
   private countUnreadMessages(messages: Messages[], participantId: string): number {
     return messages.filter((message: Messages) => message.senderId !== participantId && !message.readStatus).length;
   }
+
+
+  /* countdown service */
+  private inactivityTimer: any;
+
+  startInactivityTimer() {
+    // Clear any existing timer
+    if (this.inactivityTimer) {
+      clearTimeout(this.inactivityTimer);
+    }
+
+    // Set a timer for 24 hours (24 * 60 * 60 * 1000 ms)
+    this.inactivityTimer = setTimeout(() => {
+      this.logout(); // Call your logout function
+    }, 24 * 60 * 60 * 1000);
+
+    // Listen to user activity to reset the timer
+    this.setupActivityListeners();
+  }
+
+  setupActivityListeners() {
+    // Clear any existing event listeners (to avoid duplicates)
+    window.removeEventListener('mousemove', this.resetInactivityTimer);
+    window.removeEventListener('click', this.resetInactivityTimer);
+    window.removeEventListener('keypress', this.resetInactivityTimer);
+
+    // Add event listeners
+    window.addEventListener('mousemove', this.resetInactivityTimer.bind(this));
+    window.addEventListener('click', this.resetInactivityTimer.bind(this));
+    window.addEventListener('keypress', this.resetInactivityTimer.bind(this));
+  }
+
+  resetInactivityTimer() {
+    this.startInactivityTimer(); // Restart the inactivity timer on user activity
+  }
+
+  clearInactivityTimer() {
+    clearTimeout(this.inactivityTimer);
+    window.removeEventListener('mousemove', this.resetInactivityTimer);
+    window.removeEventListener('click', this.resetInactivityTimer);
+    window.removeEventListener('keypress', this.resetInactivityTimer);
+  }
+
 }
