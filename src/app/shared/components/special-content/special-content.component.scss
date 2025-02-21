@@ -151,8 +151,9 @@ body {
 }
 
 .banner__item__pic img {
-  width: 100%;
-  height: auto;
+  // width: 100%;
+  // height: auto;
+  // max-height: 300px;
   display: block;
   transition: transform 0.3s ease-in-out;
 }
