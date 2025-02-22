@@ -86,6 +86,7 @@
 /* Basic styles for banner items */
 /* General styling */
 /* General styling */
+@import './../../../../styles';
 body {
   font-family: "Nunito Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -187,15 +188,17 @@ body {
   display: inline-block;
   margin-top: 10px;
   padding: 5px 10px;
-  background-color: #007bff;
-  color: white;
+  // background-color: #007bff;
+  background-color: $primary-color;
+  color: $secondary-color;
   text-decoration: none;
   border-radius: 3px;
   transition: background-color 0.3s, color 0.3s;
 }
 
 .banner__item__text a:hover {
-  background-color: #0056b3;
+  background-color: $secondary-color;
+  color: $primary-color;
 }
 
 
