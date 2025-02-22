@@ -197,3 +197,32 @@ body {
 .banner__item__text a:hover {
   background-color: #0056b3;
 }
+
+
+// special content
+
+.skeleton {
+  background: #f6f6f6;
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.skeleton-box {
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: 5px;
+}
+
+.skeleton-text {
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: 5px;
+  margin-top: 8px;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: 200px 0; }
+}
