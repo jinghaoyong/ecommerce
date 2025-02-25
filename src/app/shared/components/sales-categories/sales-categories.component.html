@@ -1,7 +1,7 @@
 <ul class="nav justify-content-center">
     <li class="nav-item">
-        <a class="nav-link" [class.active]="selectedCategory === 'Best Seller'"
-            (click)="filterProducts('Best Seller')">Best Seller</a>
+        <a class="nav-link" [class.active]="selectedCategory === 'bestSeller'"
+            (click)="filterProducts('bestSeller')">Best Seller</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" [class.active]="selectedCategory === 'New Arrivals'"
@@ -13,7 +13,7 @@
     </li>
 </ul>
 
-<app-sales-products [filteredProducts]="filteredProducts"></app-sales-products>
+<app-sales-products [filteredProducts]="products"></app-sales-products>
 
 <div class="view-more-btn">
     <button class="btn btn-primary">View More</button>

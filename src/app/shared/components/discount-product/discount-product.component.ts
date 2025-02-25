@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DiscountProductsService } from '../../../core/services/discount-products/discount-products.service';
 
 @Component({
   selector: 'app-discount-product',
@@ -20,9 +21,25 @@ export class DiscountProductComponent implements OnInit {
     seconds: 41
   };
 
-  constructor() { }
+  // discountProducts
+
+  constructor(
+    private discountProductServ: DiscountProductsService
+  ) {
+    // const discountproductRes = 
+    // console.log("discountproductRes",discountproductRes)
+  }
 
   ngOnInit(): void { }
+
+  async loadDiscountProducts() {
+    // try {
+    //   this.allSpecialContents = await this.discountProductServ.getBestSellerProducts();
+
+    // } catch (error) {
+    //   console.error('Error loading special contents:', error);
+    // }
+  }
 
   filterProducts(category: string): void {
     this.selectedCategory = category;

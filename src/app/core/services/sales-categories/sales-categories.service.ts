@@ -3,7 +3,6 @@ import { initializeApp } from 'firebase/app';
 import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
 import { environment } from '../../../../environments/environment';
 
-
 // Initialize Firebase
 const app = initializeApp(environment.firebaseProject_);
 const db = getFirestore(app);
@@ -11,12 +10,13 @@ const db = getFirestore(app);
 @Injectable({
   providedIn: 'root'
 })
-export class DiscountProductsService {
+export class SalesCategoriesService {
 
   constructor() { }
-  async getBestSellerProducts(): Promise<any[]> {
+
+  async getProductsByCategories(category: string): Promise<any[]> {
     const productsSnapshot = await getDocs(
-      query(collection(db, "products"), where("categories", "array-contains", "bestSeller"))
+      query(collection(db, "products"), where("categories", "array-contains", category))
     );
 
     const products: any[] = [];
