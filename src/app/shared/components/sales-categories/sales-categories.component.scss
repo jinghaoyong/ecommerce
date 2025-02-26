@@ -1,6 +1,11 @@
+@import './../../../../styles';
+
+.nav-link{
+    color: $secondary-color;
+    cursor: pointer;
+}
 .nav-link.active {
     font-weight: bold;
-    color: #007bff;
 }
 
 .view-more-btn {

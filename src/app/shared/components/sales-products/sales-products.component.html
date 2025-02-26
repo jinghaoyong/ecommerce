@@ -2,8 +2,28 @@
     <div class="row justify-content-center">
         <div *ngFor="let product of filteredProducts" class="col-lg-3 col-md-4 col-sm-6 mb-4">
             <div class="product-card zoom-in">
-                <h3>{{ product.name }}</h3>
-                <p>{{ product.description }}</p>
+                <div class="product-img">
+                    <img [src]="product.imageUrl" alt="{{ product.name }}" class="img-fluid"/>
+                </div>
+                <div class="product-details">
+                    <h3 class="product-title">{{ product.name }}</h3>
+                    <p class="product-description">{{ product.description }}</p>
+                    
+                    <div class="price-section">
+                        <span class="original-price" [class.discounted]="product.discountPrice">{{ product.currency }}{{ product.price }}</span>
+                        <span class="discount-price" *ngIf="product.discountPrice">{{ product.currency }}{{ product.discountPrice }}</span>
+                       
+                    </div>
+                    
+                    <div class="product-meta">
+                        <span class="rating">⭐ {{ product.rating }}</span>
+                        <span class="stock" [class.in-stock]="product.stock > 0">
+                            {{ product.stock > 0 ? product.stock + ' in stock' : 'Out of Stock' }}
+                          </span>
+                    </div>
+
+                    <button class="btn btn-primary btn-sm mt-2">Add to Cart</button>
+                </div>
             </div>
         </div>
     </div>

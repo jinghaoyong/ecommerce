@@ -1,19 +1,112 @@
 .product-card {
-  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
   padding: 16px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  text-align: center;
+  position: relative;
 
-  h3 {
-    margin-bottom: 10px;
-  }
-  
   &:hover {
     transform: scale(1.05);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .product-img {
+    width: 100%;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
+    border-radius: 8px;
+    overflow: hidden;
+
+    img {
+      max-height: 100%;
+      max-width: 100%;
+      transition: transform 0.3s ease;
+    }
+
+    &:hover img {
+      transform: scale(1.1);
+    }
+  }
+
+  .product-details {
+    padding: 12px;
+
+    .product-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .product-description {
+      font-size: 0.9rem;
+      color: #6c757d;
+      height: 40px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .price-section {
+      margin-top: 8px;
+
+      .discount-price {
+        font-size: 1rem;
+        font-weight: bold;
+        color: #dc3545;
+        margin-right: 5px;
+      }
+
+      .original-price {
+        font-size: 0.9rem;
+        color: #6c757d;
+        text-decoration: none;
+
+        &.discounted {
+          text-decoration: line-through;
+        }
+      }
+    }
+
+    .product-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: #6c757d;
+      margin-top: 10px;
+
+      .rating {
+        color: #ffc107;
+      }
+
+      .stock {
+        font-weight: 600;
+      
+        &.in-stock {
+          color: #28a745; // Green for available stock
+        }
+      
+        &:not(.in-stock) {
+          color: #dc3545; // Red for out-of-stock
+        }
+      }
+      
+    }
+  }
+
+  button {
+    width: 100%;
+    border-radius: 8px;
   }
 }
 
+// Zoom-in Animation
 .zoom-in {
   animation: zoomIn 0.5s;
 }

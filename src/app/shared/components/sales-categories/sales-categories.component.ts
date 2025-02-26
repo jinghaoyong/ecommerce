@@ -12,7 +12,7 @@ import { SalesCategoriesService } from '../../../core/services/sales-categories/
   styleUrls: ['./sales-categories.component.scss'],
 })
 export class SalesCategoriesComponent implements OnInit {
-  selectedCategory: string = 'Best Seller';
+  selectedCategory: string = 'bestSeller';
   categories: string[] = ['Best Seller', 'New Arrivals', 'Hot Sales'];
   // products: Array<{ name: string, category: string }> = [
   //   { name: 'Product 1', category: 'Best Seller' },
