@@ -1,3 +1,5 @@
+@import './../../../../styles';
+
 .product-card {
   background: #fff;
   border-radius: 12px;
@@ -87,16 +89,16 @@
 
       .stock {
         font-weight: 600;
-      
+
         &.in-stock {
           color: #28a745; // Green for available stock
         }
-      
+
         &:not(.in-stock) {
           color: #dc3545; // Red for out-of-stock
         }
       }
-      
+
     }
   }
 
@@ -111,11 +113,17 @@
   animation: zoomIn 0.5s;
 }
 
+.btn-special {
+  background-color: $primary-color;
+  color: $secondary-color;
+}
+
 @keyframes zoomIn {
   from {
     transform: scale(0.5);
     opacity: 0;
   }
+
   to {
     transform: scale(1);
     opacity: 1;

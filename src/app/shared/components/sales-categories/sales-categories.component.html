@@ -4,11 +4,11 @@
             (click)="filterProducts('bestSeller')">Best Seller</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" [class.active]="selectedCategory === 'New Arrivals'"
-            (click)="filterProducts('New Arrivals')">New Arrivals</a>
+        <a class="nav-link" [class.active]="selectedCategory === 'newArrivals'"
+            (click)="filterProducts('newArrivals')">New Arrivals</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" [class.active]="selectedCategory === 'Hot Sales'" (click)="filterProducts('Hot Sales')">Hot
+        <a class="nav-link" [class.active]="selectedCategory === 'hotSales'" (click)="filterProducts('hotSales')">Hot
             Sales</a>
     </li>
 </ul>
@@ -16,5 +16,5 @@
 <app-sales-products [filteredProducts]="products"></app-sales-products>
 
 <div class="view-more-btn">
-    <button class="btn btn-primary">View More</button>
+    <button class="btn btn-special">View More</button>
 </div>

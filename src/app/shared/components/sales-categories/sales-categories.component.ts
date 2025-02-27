@@ -13,7 +13,7 @@ import { SalesCategoriesService } from '../../../core/services/sales-categories/
 })
 export class SalesCategoriesComponent implements OnInit {
   selectedCategory: string = 'bestSeller';
-  categories: string[] = ['Best Seller', 'New Arrivals', 'Hot Sales'];
+  categories: string[] = ['bestSeller', 'newArrivals', 'hotSales'];
   // products: Array<{ name: string, category: string }> = [
   //   { name: 'Product 1', category: 'Best Seller' },
   //   { name: 'Product 2', category: 'Best Seller' },
@@ -61,6 +61,7 @@ export class SalesCategoriesComponent implements OnInit {
   }
 
   filterProducts(category: string) {
+    this.selectedCategory = category;
     this.loadProducts(category);
 
     this.animate = false; // Reset animation
