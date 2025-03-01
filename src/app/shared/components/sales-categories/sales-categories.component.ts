@@ -13,7 +13,7 @@ import { SalesCategoriesService } from '../../../core/services/sales-categories/
 })
 export class SalesCategoriesComponent implements OnInit {
   selectedCategory: string = 'bestSeller';
-  categories: string[] = ['bestSeller', 'newArrivals', 'hotSales'];
+  categories: string[] = ['bestSeller', 'newArrivals', 'mostViewed'];
   // products: Array<{ name: string, category: string }> = [
   //   { name: 'Product 1', category: 'Best Seller' },
   //   { name: 'Product 2', category: 'Best Seller' },
@@ -40,7 +40,7 @@ export class SalesCategoriesComponent implements OnInit {
   constructor(
     private salesCategoriesServ: SalesCategoriesService
   ) {
-    this.filterProducts("bestSeller");
+    this.getBestSeller();
   }
 
 
@@ -49,24 +49,39 @@ export class SalesCategoriesComponent implements OnInit {
     // this.filterProducts(this.selectedCategory);
   }
 
+  resetAnimate() {
+    this.animate = false; // Reset animation
+    setTimeout(() => {
+      this.animate = true; // Trigger animation
+    }, 0);
+  }
 
-
-  async loadProducts(category: string) {
+  async getBestSeller() {
+    this.selectedCategory = 'bestSeller';
     try {
-      this.products = await this.salesCategoriesServ.getProductsByCategories(category);
+      this.products = await this.salesCategoriesServ.getBestSellers();
+      console.log("products", this.products)
+    } catch (error) {
+      console.error('Error loading special contents:', error);
+    }
+  }
+  async getNewArrival() {
+    this.selectedCategory = 'newArrivals';
+    try {
+      this.products = await this.salesCategoriesServ.getNewArrivals();
       console.log("products", this.products)
     } catch (error) {
       console.error('Error loading special contents:', error);
     }
   }
 
-  filterProducts(category: string) {
-    this.selectedCategory = category;
-    this.loadProducts(category);
-
-    this.animate = false; // Reset animation
-    setTimeout(() => {
-      this.animate = true; // Trigger animation
-    }, 0);
+  async getMostViewed() {
+    this.selectedCategory = 'mostViewed';
+    try {
+      this.products = await this.salesCategoriesServ.getMostViewed();
+      console.log("products", this.products)
+    } catch (error) {
+      console.error('Error loading special contents:', error);
+    }
   }
 }

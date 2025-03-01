@@ -1,15 +1,16 @@
 <ul class="nav justify-content-center">
     <li class="nav-item">
         <a class="nav-link" [class.active]="selectedCategory === 'bestSeller'"
-            (click)="filterProducts('bestSeller')">Best Seller</a>
+            (click)="getBestSeller()">Best Seller</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" [class.active]="selectedCategory === 'newArrivals'"
-            (click)="filterProducts('newArrivals')">New Arrivals</a>
+            (click)="getNewArrival()">New Arrivals</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" [class.active]="selectedCategory === 'hotSales'" (click)="filterProducts('hotSales')">Hot
-            Sales</a>
+        <a class="nav-link" [class.active]="selectedCategory === 'mostViewed'" (click)="getMostViewed()">
+            Most Viewed
+        </a>
     </li>
 </ul>
 
