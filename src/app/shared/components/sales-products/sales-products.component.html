@@ -12,14 +12,14 @@
                     <div class="price-section">
                         <span class="original-price" [class.discounted]="product.discountPrice">{{ product.currency }}{{ product.price }}</span>
                         <span class="discount-price" *ngIf="product.discountPrice">{{ product.currency }}{{ product.discountPrice }}</span>
-                       
                     </div>
                     
                     <div class="product-meta">
                         <span class="rating">⭐ {{ product.rating }}</span>
-                        <span class="stock" [class.in-stock]="product.stock > 0">
+                        <!-- <span class="stock" [class.in-stock]="product.stock > 0">
                             {{ product.stock > 0 ? product.stock + ' in stock' : 'Out of Stock' }}
-                          </span>
+                        </span> -->
+                        <span class="sold" *ngIf="product.soldCount">🛒 Sold: {{ product.soldCount }}</span>
                     </div>
 
                     <button class="btn btn-special btn-sm mt-2">Add to Cart</button>
