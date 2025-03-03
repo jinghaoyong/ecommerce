@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
-import { collection, getDocs, getFirestore, orderBy, query, where } from 'firebase/firestore';
+import { collection, getDocs, getFirestore, limit, orderBy, query, where } from 'firebase/firestore';
 import { environment } from '../../../../environments/environment';
 
 // Initialize Firebase
@@ -20,11 +20,11 @@ export class SalesCategoriesService {
     if (category) {
       productQuery = query(
         collection(db, "products"),
-        where("categories", "array-contains", category)
+        where("categories", "array-contains", category), limit(6)
       );
     } else {
       productQuery = query(
-        collection(db, "products")
+        collection(db, "products"), limit(6)
       );
     }
 
@@ -49,12 +49,12 @@ export class SalesCategoriesService {
       productQuery = query(
         collection(db, "products"),
         where("categories", "array-contains", category),
-        orderBy("soldCount", "desc")
+        orderBy("soldCount", "desc"), limit(6)
       );
     } else {
       productQuery = query(
         collection(db, "products"),
-        orderBy("soldCount", "desc")
+        orderBy("soldCount", "desc"), limit(6)
       );
     }
 
@@ -73,12 +73,12 @@ export class SalesCategoriesService {
       productQuery = query(
         collection(db, "products"),
         where("categories", "array-contains", category),
-        orderBy("createdAt", "desc")
+        orderBy("createdAt", "desc"), limit(6)
       );
     } else {
       productQuery = query(
         collection(db, "products"),
-        orderBy("createdAt", "desc")
+        orderBy("createdAt", "desc"), limit(6)
       );
     }
 
@@ -97,12 +97,12 @@ export class SalesCategoriesService {
       productQuery = query(
         collection(db, "products"),
         where("categories", "array-contains", category),
-        orderBy("viewed", "desc")
+        orderBy("viewed", "desc"), limit(6)
       );
     } else {
       productQuery = query(
         collection(db, "products"),
-        orderBy("viewed", "desc")
+        orderBy("viewed", "desc"), limit(6)
       );
     }
 

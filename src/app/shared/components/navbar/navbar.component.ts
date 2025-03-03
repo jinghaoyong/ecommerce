@@ -7,6 +7,7 @@ import { TitlestringService } from '../../../core/services/titleString/titlestri
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { Tooltip, Popover } from 'bootstrap';
+import { NavbarService } from '../../../core/services/navbar/navbar.service';
 
 @Component({
   selector: 'app-navbar',
@@ -25,10 +26,7 @@ export class NavbarComponent implements OnInit {
   titleString?: any[];
 
   // for search bar and cateogires 
-  categories: string[] = [
-    "Powerbank", "Glad2glow", "Handbag", "Tumbler", "Rak Kasut",
-    "Skintific", "LEGO", "Pencil Case", "Earphone", "Bluetooth"
-  ];
+  categories: any[] = [];
 
   searchQuery: string = "";
 
@@ -37,11 +35,13 @@ export class NavbarComponent implements OnInit {
     private firebaseServ: FirebaseService,
     private titleStringServ: TitlestringService,
     private router: Router,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private navbarServ: NavbarService
   ) {
     this.currentUser = this.firebaseServ.currentUserValue;
     this.translate.setDefaultLang('en'); // Set default language
     this.translate.use('en'); // Use English initially
+    this.getTopHashtags();
   }
 
   ngOnInit(): void {
@@ -85,6 +85,10 @@ export class NavbarComponent implements OnInit {
     console.log("userDAta from firebaseServ", userData)
     this.currentUser = this.firebaseServ.currentUserValue;
     console.log("currentUser", this.currentUser)
+  }
+
+  async getTopHashtags() {
+    this.categories = await this.navbarServ.getTopHashtags();
   }
 
   handleImageError(event: Event) {
