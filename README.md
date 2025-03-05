@@ -122,7 +122,7 @@ add chinese and melayu language for nav bar
 ## Pending Small Task
 🔜 special content image size
 🔜 shared service which make the navbar will whether hidden when scroll down
-
+🔜 sitemap which enable google this kind of search engine more easier to crawl the website thing
 ## env file environment.ts
 export const environment = {
   production: false,
