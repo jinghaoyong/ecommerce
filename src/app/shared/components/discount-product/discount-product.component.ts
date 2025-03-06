@@ -21,24 +21,25 @@ export class DiscountProductComponent implements OnInit {
     seconds: 41
   };
 
-  // discountProducts
+  dealOfTheWeekProducts?: any[] = [];
 
   constructor(
     private discountProductServ: DiscountProductsService
   ) {
     // const discountproductRes = 
     // console.log("discountproductRes",discountproductRes)
+    this.loadDiscountProducts();
   }
 
   ngOnInit(): void { }
 
   async loadDiscountProducts() {
-    // try {
-    //   this.allSpecialContents = await this.discountProductServ.getBestSellerProducts();
-
-    // } catch (error) {
-    //   console.error('Error loading special contents:', error);
-    // }
+    try {
+      this.dealOfTheWeekProducts = await this.discountProductServ.getDealOfTheWeekProducts();
+      console.log("dealOfTheWeekProducts", this.dealOfTheWeekProducts)
+    } catch (error) {
+      console.error('Error loading special contents:', error);
+    }
   }
 
   filterProducts(category: string): void {

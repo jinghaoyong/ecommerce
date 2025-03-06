@@ -14,18 +14,17 @@ const db = getFirestore(app);
 export class DiscountProductsService {
 
   constructor() { }
-  async getBestSellerProducts(): Promise<any[]> {
-    const productsSnapshot = await getDocs(
-      query(collection(db, "products"), where("categories", "array-contains", "bestSeller"))
+  async getDealOfTheWeekProducts(): Promise<any[]> {
+    const productQuery = query(
+      collection(db, "products"),
+      where("dealOfTheWeek", "==", true) // Filter where dealOfTheWeek is true
     );
 
-    const products: any[] = [];
-    productsSnapshot.forEach((doc) => {
-      products.push({
-        id: doc.id,
-        ...doc.data(),
-      });
-    });
+    const productsSnapshot = await getDocs(productQuery);
+    const products = productsSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
 
     return products;
   }
