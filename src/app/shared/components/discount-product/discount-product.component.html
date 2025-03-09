@@ -5,7 +5,7 @@
             <div class="col-lg-4 position-absolute overlap-content" style="z-index: 2; left: 60%; transform: translateX(-50%);">
                 <ul class="nav categories-filter">
                     <li class="nav-item">
-                        <a class="nav-link" [class.active]="selectedCategory === 'Best Seller'" (click)="filterProducts('Best Seller')">Crystal</a>
+                        <a class="nav-link" [class.active]="selectedCategory === dealOfTheWeekProducts?.[0]?.category" (click)="filterProducts('Best Seller')">{{dealOfTheWeekProducts?.[0]?.category}}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" [class.active]="selectedCategory === 'New Arrivals'" (click)="filterProducts('New Arrivals')">Bracelet</a>

@@ -36,6 +36,8 @@ export class DiscountProductComponent implements OnInit {
   async loadDiscountProducts() {
     try {
       this.dealOfTheWeekProducts = await this.discountProductServ.getDealOfTheWeekProducts();
+      console.log("this.dealOfTheWeekProducts[0].category",this.dealOfTheWeekProducts[0].category)
+      this.selectedCategory = this.dealOfTheWeekProducts[0].category
       console.log("dealOfTheWeekProducts", this.dealOfTheWeekProducts)
     } catch (error) {
       console.error('Error loading special contents:', error);
