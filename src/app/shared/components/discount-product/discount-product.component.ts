@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { DiscountProductsService } from '../../../core/services/discount-products/discount-products.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-discount-product',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './discount-product.component.html',
   styleUrl: './discount-product.component.scss'
 })
@@ -36,7 +37,7 @@ export class DiscountProductComponent implements OnInit {
   async loadDiscountProducts() {
     try {
       this.dealOfTheWeekProducts = await this.discountProductServ.getDealOfTheWeekProducts();
-      console.log("this.dealOfTheWeekProducts[0].category",this.dealOfTheWeekProducts[0].category)
+      console.log("this.dealOfTheWeekProducts[0].category", this.dealOfTheWeekProducts[0].category)
       this.selectedCategory = this.dealOfTheWeekProducts[0].category
       console.log("dealOfTheWeekProducts", this.dealOfTheWeekProducts)
     } catch (error) {
@@ -44,8 +45,13 @@ export class DiscountProductComponent implements OnInit {
     }
   }
 
-  filterProducts(category: string): void {
-    this.selectedCategory = category;
+  goToFilterPage(item: any): void {
+    this.selectedCategory = item?.category;
     // Implement your logic to filter products based on category
+  }
+
+  calculateDiscountRate(oriPrice: number, discountPrice: number): string {
+    return `${Math.round(((oriPrice - discountPrice) / oriPrice) * 100)}%`;
+
   }
 }
