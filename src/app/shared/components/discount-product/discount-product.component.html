@@ -26,9 +26,9 @@
             <div *ngFor="let item of dealOfTheWeekProducts">
                 <div class="product-image" *ngIf="item?.category === selectedCategory">
 
-                    <img [src]="item?.imageUrl" alt="Product Image" style="width: 250px; height: 200px;">
+                    <img [src]="item?.imageUrl" alt="Product Image"  style="height: 350px; width: 400px;">
                     <div class="product-offer">
-                        <span>{{calculateDiscountRate(item?.price, item?.discountPrice)}}</span>
+                        <span>{{calculateDiscountRate(item?.price, item?.discountPrice)}} OFF</span>
                     </div>
 
                 </div>
@@ -36,19 +36,19 @@
         </div>
         <div class="col-lg-3 categories__deal__countdown">
             <span>Deal Of The Week</span>
-            <h2>{{ product.name }}</h2>
-            <p>{{ product.description }}</p>
+            <h2>{{ selectedProduct?.name }}</h2>
+            <p>{{ selectedProduct?.description }}</p>
             <div class="categories__deal__countdown__timer" id="countdown">
-                <div class="cd-item"><span>{{ countdown.days }}</span>
+                <div class="cd-item"><span>{{ countdown?.days }}</span>
                     <p>Days</p>
                 </div>
-                <div class="cd-item"><span>{{ countdown.hours }}</span>
+                <div class="cd-item"><span>{{ countdown?.hours }}</span>
                     <p>Hours</p>
                 </div>
-                <div class="cd-item"><span>{{ countdown.minutes }}</span>
+                <div class="cd-item"><span>{{ countdown?.minutes }}</span>
                     <p>Minutes</p>
                 </div>
-                <div class="cd-item"><span>{{ countdown.seconds }}</span>
+                <div class="cd-item"><span>{{ countdown?.seconds }}</span>
                     <p>Seconds</p>
                 </div>
             </div>
