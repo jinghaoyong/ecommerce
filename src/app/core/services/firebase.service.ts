@@ -80,9 +80,10 @@ export class FirebaseService {
         const querySnapshot = await getDocs(q);
         this.startInactivityTimer(); // Start the 24-hour inactivity timer
         if (querySnapshot.empty) {
+          const defaultImageUrl = "https://www.w3schools.com/howto/img_avatar.png";
           const userData: UserData = {
             userId: user.uid,
-            userImage: user.photoURL || '',
+            userImage: user.photoURL || defaultImageUrl,
             userName: user.displayName || '',
             email: user.email || '',
             password: '',
