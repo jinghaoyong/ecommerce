@@ -123,6 +123,19 @@ add chinese and melayu language for nav bar
 🔜 special content image size
 🔜 shared service which make the navbar will whether hidden when scroll down
 🔜 sitemap which enable google this kind of search engine more easier to crawl the website thing
+🔜 search results page refer to shopee, for the concept of filtering from hashtag .. for loop the hastags and list all, as well as `relevance,top rate balbal condition`
+- 2025(current year) collection (jsut filter out those product which is create on 2025 asc)
+- top picker (filterd out those sell the most)
+- summer(current season) product(jsut show within the quarter period)
+^ those filter will still remain when in result filter page 
+copy shopee that filter at left side, product at right side
+
+then other pending page
+- product details
+-favourite
+- user info pop up
+- blogpost details page(blogpost can put at topbar)
+details also copy to shopee
 ## env file environment.ts
 export const environment = {
   production: false,
