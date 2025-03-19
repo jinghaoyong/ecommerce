@@ -1,8 +1,13 @@
-<div class="container p-2">
-    <div class="bg-info"><span>Search result for 'param'</span></div>
-    <div class="bg-primary">sorting label</div>
-    <div>
-        list all products here
-        <!-- <app-sales-products [filteredProducts]="products"></app-sales-products> -->
+<div class="container">
+    <!-- Sorting Bar -->
+    <div class="sorting-bar">
+      <button class="active">Relevance</button>
+      <button>Latest</button>
+      <button>Top Sales</button>
+      <button>Price</button>
     </div>
-</div>
+  
+    <!-- Product Grid -->
+    <app-sales-products [filteredProducts]="products"></app-sales-products>
+  </div>
+  

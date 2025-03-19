@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SpecialContentService } from '../../../core/services/special-content/special-content.service';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-special-content',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './special-content.component.html',
   styleUrl: './special-content.component.scss'
 })
@@ -37,7 +38,7 @@ export class SpecialContentComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
   }
-  
+
   ngOnInit(): void {
   }
 }
