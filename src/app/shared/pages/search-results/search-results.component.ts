@@ -27,6 +27,46 @@ export class SearchResultsComponent {
       sold: '101',
       shipping: 'Free Shipping',
     },
+    {
+      image: 'assets/images/product2.jpg',
+      title: 'Deli Laptop Bag Office Work Men Business',
+      price: '11.99',
+      rating: '4.9',
+      sold: '101',
+      shipping: 'Free Shipping',
+    },
+    {
+      image: 'assets/images/product2.jpg',
+      title: 'Deli Laptop Bag Office Work Men Business',
+      price: '11.99',
+      rating: '4.9',
+      sold: '101',
+      shipping: 'Free Shipping',
+    },
+    {
+      image: 'assets/images/product2.jpg',
+      title: 'Deli Laptop Bag Office Work Men Business',
+      price: '11.99',
+      rating: '4.9',
+      sold: '101',
+      shipping: 'Free Shipping',
+    },
+    {
+      image: 'assets/images/product2.jpg',
+      title: 'Deli Laptop Bag Office Work Men Business',
+      price: '11.99',
+      rating: '4.9',
+      sold: '101',
+      shipping: 'Free Shipping',
+    },
+    {
+      image: 'assets/images/product2.jpg',
+      title: 'Deli Laptop Bag Office Work Men Business',
+      price: '11.99',
+      rating: '4.9',
+      sold: '101',
+      shipping: 'Free Shipping',
+    },
   ];
   
 }

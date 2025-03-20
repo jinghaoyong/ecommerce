@@ -1,13 +1,26 @@
-<div class="container">
-    <!-- Sorting Bar -->
-    <div class="sorting-bar">
-      <button class="active">Relevance</button>
-      <button>Latest</button>
-      <button>Top Sales</button>
-      <button>Price</button>
+<div class="container_">
+    <div class="row">
+        <div class="col-3">
+            <!-- Sorting Bar -->
+            <div class="sorting-bar">
+                <div class="dropdown-item text-color">
+                    <i class="bi bi bi-search me-1"></i> Search :
+                </div>
+                <div>
+                    <div>Top pick</div>
+                    <div>summer product</div>
+                    <div>crystal collection 2025</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-9">
+            <div class="paginationbar text-end p-3" style="background-color: aqua;">pagination</div>
+            <!-- Product Grid -->
+            <app-sales-products [filteredProducts]="products"></app-sales-products>
+        </div>
     </div>
-  
-    <!-- Product Grid -->
-    <app-sales-products [filteredProducts]="products"></app-sales-products>
-  </div>
-  
+
+
+
+</div>
