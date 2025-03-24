@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SalesProductsComponent } from '../../components/sales-products/sales-products.component';
+import { scrollToTop } from '../../services/utils/utils';
 
 @Component({
   selector: 'app-search-results',
   standalone: true,
-  imports: [CommonModule,SalesProductsComponent],
+  imports: [CommonModule, SalesProductsComponent],
   templateUrl: './search-results.component.html',
   styleUrl: './search-results.component.scss'
 })
@@ -68,5 +69,8 @@ export class SearchResultsComponent {
       shipping: 'Free Shipping',
     },
   ];
-  
+
+  constructor() {
+    scrollToTop();
+  }
 }
