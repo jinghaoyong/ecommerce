@@ -81,10 +81,12 @@
                     </div>
                     <div class="banner__item__text">
                         <h2>{{ specialContent1?.[0]?.title }}</h2>
-                        <a [routerLink]="'/searchresults'">Shop now</a>
+                        <a [routerLink]="['/searchresults']"
+                            [queryParams]="{ category: specialContent1?.[0]?.title }">Shop now</a>
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-5 col-md-6 col-sm-12">
                 <div class="banner__item banner__item--middle">
                     <div class="banner__item__pic">
@@ -92,10 +94,12 @@
                     </div>
                     <div class="banner__item__text">
                         <h2>{{ specialContent2?.[0]?.title }}</h2>
-                        <a [routerLink]="'/searchresults'">Shop now</a>
+                        <a [routerLink]="['/searchresults']"
+                            [queryParams]="{ category: specialContent2?.[0]?.title }">Shop now</a>
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-7 col-md-6 col-sm-12">
                 <div class="banner__item banner__item--last">
                     <div class="banner__item__pic">
@@ -103,10 +107,12 @@
                     </div>
                     <div class="banner__item__text">
                         <h2>{{ specialContent3?.[0]?.title }}</h2>
-                        <a [routerLink]="'/searchresults'">Shop now</a>
+                        <a [routerLink]="['/searchresults']"
+                            [queryParams]="{ category: specialContent3?.[0]?.title }">Shop now</a>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </ng-template>

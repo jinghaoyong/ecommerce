@@ -1,16 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SalesProductsComponent } from '../../components/sales-products/sales-products.component';
 import { scrollToTop } from '../../services/utils/utils';
-
+import { SpecialContentService } from '../../../core/services/special-content/special-content.service';
+import { ActivatedRoute } from '@angular/router';
+import { NgbNavModule, NgbAccordionModule, NgbTooltipModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-search-results',
   standalone: true,
-  imports: [CommonModule, SalesProductsComponent],
+  imports: [CommonModule, SalesProductsComponent,NgbNavModule, NgbAccordionModule, NgbTooltipModule, NgbModule],
   templateUrl: './search-results.component.html',
   styleUrl: './search-results.component.scss'
 })
-export class SearchResultsComponent {
+export class SearchResultsComponent implements OnInit {
   products = [
     {
       image: 'assets/images/product1.jpg',
@@ -70,7 +72,38 @@ export class SearchResultsComponent {
     },
   ];
 
-  constructor() {
+  allSpecialContents?: any[] = [];
+
+  selectedCheckbox: string | null = null;
+
+  constructor(
+    private specialContentServ: SpecialContentService,
+    private route: ActivatedRoute
+  ) {
     scrollToTop();
+    this.loadSpecialContents();
+  }
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.selectedCheckbox = params['category'];
+    });
+  }
+
+
+  isChecked(title: string): boolean {
+    return this.selectedCheckbox === title;
+  }
+
+  onCheckboxChange(title: string) {
+    this.selectedCheckbox = this.selectedCheckbox === title ? null : title;
+  }
+
+  async loadSpecialContents() {
+    try {
+      this.allSpecialContents = await this.specialContentServ.getSpecialContent();
+    } catch (error) {
+      console.error('Error loading special contents:', error);
+    }
   }
 }
