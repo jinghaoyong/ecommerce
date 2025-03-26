@@ -23,22 +23,29 @@
 
         <!-- Product Grid -->
         <div class="col-9">
-            <div class="paginationbar text-end p-3 m-2">
-                <!-- Pagination Component -->
-                <!-- <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="service.page"
-                    [pageSize]="service.pageSize">
-                    <ng-template ngbPaginationPrevious>Previous</ng-template>
-                    <ng-template ngbPaginationNext>Next</ng-template>
-                </ngb-pagination> -->
+            <div class="">
+                <div class="d-flex flex-wrap justify-content-end align-items-center gap-3  text-end">
+                    <div style="margin-bottom: 12px; margin-right: 10px; color:#adb5bd">
+                        <span>{{showingEntriesText || ''}}</span>
+                    </div>
+                    <!-- Pagination Component -->
+                    <ngb-pagination [collectionSize]="recordCount" [(page)]="currentPage"
+                        (pageChange)="pageChange($event)" [pageSize]="pageSize" [maxSize]="5" [rotate]="false"
+                        [boundaryLinks]="true" [ellipses]="true">
+                        <ng-template ngbPaginationPrevious>Previous</ng-template>
+                        <ng-template ngbPaginationNext>Next</ng-template>
+                    </ngb-pagination>
 
-                <!-- DataTables Length Selector -->
-                <!-- <div style="margin-bottom: 12px; margin-right: 10px;">
-                  <select name="pageSize" [(ngModel)]="service.pageSize" class="form-select form-select-sm">
-                      <option [ngValue]="5">5</option>
-                      <option [ngValue]="10">10</option>
-                      <option [ngValue]="20">20</option>
-                  </select>
-              </div> -->
+                    <!-- DataTables Length Selector -->
+                    <div style="margin-bottom: 12px; margin-right: 10px;">
+                        <select name="pageSize" [(ngModel)]="pageSize" class="form-select form-select-sm"
+                            (change)="pageLengthChange($event)">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                        </select>
+                    </div>
+                </div>
             </div>
             <app-sales-products [filteredProducts]="products"></app-sales-products>
         </div>

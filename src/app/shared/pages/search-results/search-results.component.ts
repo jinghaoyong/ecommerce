@@ -5,10 +5,11 @@ import { scrollToTop } from '../../services/utils/utils';
 import { SpecialContentService } from '../../../core/services/special-content/special-content.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgbNavModule, NgbAccordionModule, NgbTooltipModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-search-results',
   standalone: true,
-  imports: [CommonModule, SalesProductsComponent,NgbNavModule, NgbAccordionModule, NgbTooltipModule, NgbModule],
+  imports: [CommonModule, SalesProductsComponent, NgbNavModule, NgbAccordionModule, NgbTooltipModule, NgbModule, FormsModule],
   templateUrl: './search-results.component.html',
   styleUrl: './search-results.component.scss'
 })
@@ -76,6 +77,14 @@ export class SearchResultsComponent implements OnInit {
 
   selectedCheckbox: string | null = null;
 
+  //for pagination
+  currentPage: number = 1;
+  pageSize: number = 10;
+  selectedPageSize?: number;
+  recordCount: number = 0;
+  showingEntriesText?: string;
+  sortNameOrder: number = 0;
+
   constructor(
     private specialContentServ: SpecialContentService,
     private route: ActivatedRoute
@@ -97,6 +106,14 @@ export class SearchResultsComponent implements OnInit {
 
   onCheckboxChange(title: string) {
     this.selectedCheckbox = this.selectedCheckbox === title ? null : title;
+  }
+
+  pageChange(event: any) {
+
+  }
+
+  pageLengthChange(event: any) {
+
   }
 
   async loadSpecialContents() {
