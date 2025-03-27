@@ -6,6 +6,7 @@ import { SpecialContentService } from '../../../core/services/special-content/sp
 import { ActivatedRoute } from '@angular/router';
 import { NgbNavModule, NgbAccordionModule, NgbTooltipModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
+import { DiscountProductsService } from '../../../core/services/discount-products/discount-products.service';
 @Component({
   selector: 'app-search-results',
   standalone: true,
@@ -14,7 +15,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './search-results.component.scss'
 })
 export class SearchResultsComponent implements OnInit {
-  products = [
+  products?: any[] = [
     {
       image: 'assets/images/product1.jpg',
       title: '[13-17 inch] Laptop Sleeve Soft Case',
@@ -87,7 +88,8 @@ export class SearchResultsComponent implements OnInit {
 
   constructor(
     private specialContentServ: SpecialContentService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private productServ: DiscountProductsService
   ) {
     scrollToTop();
     this.loadSpecialContents();
@@ -97,6 +99,19 @@ export class SearchResultsComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.selectedCheckbox = params['category'];
     });
+
+    if (this.selectedCheckbox) {
+      if (this.selectedCheckbox === "Summer hot product") {
+        console.log("this.selectedCheckbox ", this.selectedCheckbox)
+        this.productServ.getSeasonalProducts().then(products => {
+          this.products = products;
+        }).catch(error => {
+          console.error('Error fetching seasonal products:', error);
+        });
+        console.log("this.products", this.products)
+      }
+
+    }
   }
 
 
@@ -106,6 +121,15 @@ export class SearchResultsComponent implements OnInit {
 
   onCheckboxChange(title: string) {
     this.selectedCheckbox = this.selectedCheckbox === title ? null : title;
+    if (this.selectedCheckbox === "Summer hot product") {
+      console.log("this.selectedCheckbox ", this.selectedCheckbox)
+      this.productServ.getSeasonalProducts().then(products => {
+        this.products = products;
+      }).catch(error => {
+        console.error('Error fetching seasonal products:', error);
+      });
+      console.log("this.products", this.products)
+    }
   }
 
   pageChange(event: any) {
