@@ -109,6 +109,18 @@ export class SearchResultsComponent implements OnInit {
           console.error('Error fetching seasonal products:', error);
         });
         console.log("this.products", this.products)
+      } else if (this.selectedCheckbox === "Top picker") {
+        this.productServ.getTopPickedProducts().then(products => {
+          this.products = products;
+        }).catch(error => {
+          console.error('Error fetching seasonal products:', error);
+        });
+      } else if (this.selectedCheckbox === "Crystal Collections 2025") {
+        this.productServ.getThisYearProducts().then(products => {
+          this.products = products;
+        }).catch(error => {
+          console.error('Error fetching seasonal products:', error);
+        });
       }
 
     }
@@ -120,6 +132,7 @@ export class SearchResultsComponent implements OnInit {
   }
 
   onCheckboxChange(title: string) {
+    console.log("title", title)
     this.selectedCheckbox = this.selectedCheckbox === title ? null : title;
     if (this.selectedCheckbox === "Summer hot product") {
       console.log("this.selectedCheckbox ", this.selectedCheckbox)
@@ -129,6 +142,18 @@ export class SearchResultsComponent implements OnInit {
         console.error('Error fetching seasonal products:', error);
       });
       console.log("this.products", this.products)
+    } else if (this.selectedCheckbox === "Top picker") {
+      this.productServ.getTopPickedProducts().then(products => {
+        this.products = products;
+      }).catch(error => {
+        console.error('Error fetching seasonal products:', error);
+      });
+    } else if (this.selectedCheckbox === "Crystal Collections 2025") {
+      this.productServ.getThisYearProducts().then(products => {
+        this.products = products;
+      }).catch(error => {
+        console.error('Error fetching seasonal products:', error);
+      });
     }
   }
 

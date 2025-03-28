@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
-import { collection, getDocs, getFirestore, query, Timestamp, where } from 'firebase/firestore';
+import { collection, getDocs, getFirestore, limit, orderBy, query, Timestamp, where } from 'firebase/firestore';
 import { environment } from '../../../../environments/environment';
 
 
@@ -45,6 +45,45 @@ export class DiscountProductsService {
     const productQuery = query(
       collection(db, "products"),
       where("createdAt", ">=", startTimestamp) // Filter by creation date
+    );
+
+    const productsSnapshot = await getDocs(productQuery);
+    const products = productsSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    return products;
+  }
+
+  async getTopPickedProducts(): Promise<any[]> {
+    // Query Firestore products collection, ordered by soldCount in descending order
+    const productQuery = query(
+      collection(db, "products"),
+      orderBy("soldCount", "desc"), // Sort by highest sold count
+      limit(10) // Limit to top 10 best-selling products
+    );
+
+    const productsSnapshot = await getDocs(productQuery);
+    const products = productsSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    return products;
+  }
+
+
+  async getThisYearProducts(): Promise<any[]> {
+    const currentYear = new Date().getFullYear();
+    const startOfYear = Timestamp.fromDate(new Date(currentYear, 0, 1)); // Jan 1st, 00:00:00
+    const endOfYear = Timestamp.fromDate(new Date(currentYear, 11, 31, 23, 59, 59)); // Dec 31st, 23:59:59
+
+    // Query Firestore for products created within the current year
+    const productQuery = query(
+      collection(db, "products"),
+      where("createdAt", ">=", startOfYear),
+      where("createdAt", "<=", endOfYear)
     );
 
     const productsSnapshot = await getDocs(productQuery);
