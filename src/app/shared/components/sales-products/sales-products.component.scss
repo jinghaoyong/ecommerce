@@ -43,6 +43,9 @@
       font-size: 1.1rem;
       font-weight: bold;
       margin-top: 10px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .product-description {

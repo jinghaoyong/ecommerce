@@ -82,3 +82,16 @@
   color: $secondary-color;
   cursor: pointer;
 }
+
+
+.view-more-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.btn-special {
+  background-color: $primary-color;
+  color: $secondary-color;
+}

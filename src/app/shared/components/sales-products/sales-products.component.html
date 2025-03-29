@@ -1,6 +1,6 @@
 <div class="container">
-    <div class="row justify-content-center">
-        <div *ngFor="let product of filteredProducts" class="col-lg-3 col-md-4 col-sm-6 mb-4">
+    <div class="row">
+        <div *ngFor="let product of filteredProducts" class="col-lg-4 col-md-4 col-sm-6 mb-4">
             <div class="product-card zoom-in">
                 <div class="product-img">
                     <img [src]="product.imageUrl" alt="{{ product.name }}" class="img-fluid"/>

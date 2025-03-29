@@ -165,6 +165,10 @@ export class SearchResultsComponent implements OnInit {
 
   }
 
+  getMoreProducts(){
+
+  }
+
   async loadSpecialContents() {
     try {
       this.allSpecialContents = await this.specialContentServ.getSpecialContent();
