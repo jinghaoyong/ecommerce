@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { FirebaseService } from '../../../core/services/firebase.service';
 import { UserData } from '../../../core/interfaces/@type';
@@ -16,7 +16,7 @@ import { NavbarService } from '../../../core/services/navbar/navbar.service';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   readonly prefixTranslate = 'NAVBAR.';
   isStickyNav = false; // Default is non-sticky
 
@@ -105,6 +105,18 @@ export class NavbarComponent implements OnInit {
     // this.router.navigateByUrl('/')
     this.firebaseServ.logout();
     this.currentUser = this.firebaseServ.currentUserValue;
+  }
+
+  onSearch() {
+    console.log("searchQuery", this.searchQuery)
+    this.router.navigate(['/searchresults'], { queryParams: { hashtag: this.searchQuery } });
+  }
+  onCategoryClick(category: string) {
+    console.log("category", category)
+    // this.router.navigate(['/search'], { queryParams: { q: category } });
+  }
+
+  ngOnDestroy(): void {
   }
 
 

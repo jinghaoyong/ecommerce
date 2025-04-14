@@ -95,6 +95,30 @@ export class DiscountProductsService {
     return products;
   }
 
+  async getProductsByHashtagSearch(queryString: string): Promise<any[]> {
+    // Basic query to get products that have hashtags field
+    const productQuery = query(
+      collection(db, "products"),
+      where("hashtags", "!=", null) // get documents where hashtags array exists
+    );
+
+    const productsSnapshot = await getDocs(productQuery);
+    const lowercaseQuery = queryString.toLowerCase();
+
+    const matchingProducts = productsSnapshot.docs
+      .map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+      }))
+      .filter((product: any) =>
+        product.hashtags?.some((tag: string) =>
+          tag.toLowerCase().includes(lowercaseQuery)
+        )
+      );
+
+    return matchingProducts;
+  }
+
   // Function to determine the season based on the month
   getSeasonFromMonth(month: number): string {
     if (month >= 2 && month <= 4) return "Spring"; // March - May
