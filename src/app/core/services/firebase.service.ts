@@ -54,6 +54,16 @@ export class FirebaseService {
     return userData;
   }
 
+  async getUserDataById(userId: string): Promise<UserData | null> {
+    const userDoc = await getDoc(doc(db, 'users', userId));
+    if (userDoc.exists()) {
+      return userDoc.data() as UserData;
+    } else {
+      return null;
+    }
+  }
+
+
   async createUserData(userData: UserData): Promise<void> {
     try {
       const userRef = await addDoc(collection(db, 'users'), {
