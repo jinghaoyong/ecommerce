@@ -24,6 +24,7 @@ export interface UserData {
     userImage: string;
     userName: string;
     password: string; // Added password field
+    favourite: string[]; // Added password field
     [key: string]: any;
 }
 
