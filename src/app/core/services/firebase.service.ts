@@ -57,7 +57,7 @@ export class FirebaseService {
   async getUserDataById(userId: string): Promise<UserData | null> {
     const userDoc = await getDoc(doc(db, 'users', userId));
     if (userDoc.exists()) {
-      return userDoc.data() as UserData;
+      return userDoc.data() as any;
     } else {
       return null;
     }
@@ -91,7 +91,7 @@ export class FirebaseService {
         this.startInactivityTimer(); // Start the 24-hour inactivity timer
         if (querySnapshot.empty) {
           const defaultImageUrl = "https://www.w3schools.com/howto/img_avatar.png";
-          const userData: UserData = {
+          const userData: any = {
             userId: user.uid,
             userImage: user.photoURL || defaultImageUrl,
             userName: user.displayName || '',

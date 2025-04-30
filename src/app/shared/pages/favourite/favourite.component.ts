@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LocalstorageService } from '../../services/localstorage/localstorage.service';
 import { FirebaseService } from '../../../core/services/firebase.service';
 import { CommonModule } from '@angular/common';
+import { FavouriteService } from '../../../core/services/favourite/favourite.service';
 
 @Component({
   selector: 'app-favourite',
@@ -41,7 +42,8 @@ export class FavouriteComponent implements OnInit {
 
   constructor(
     private localStorageServ: LocalstorageService,
-    private firebaseServ: FirebaseService
+    private firebaseServ: FirebaseService,
+    private favouriteServ: FavouriteService
   ) {
 
   }
@@ -52,6 +54,11 @@ export class FavouriteComponent implements OnInit {
 
     this.firebaseServ.getUserDataById(currentUser?.userId).then((userData) => {
       console.log("getUserDataById userData", userData);
+      if (userData?.favourite && userData?.favourite?.length > 0) {
+        this.favouriteServ.getProductsByIds(userData?.favourite).then((products) => {
+          console.log("getProductByIds products", products);
+        })
+      }
     });
   }
 
