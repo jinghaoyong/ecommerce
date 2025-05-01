@@ -22,7 +22,7 @@
                         <span class="sold" *ngIf="product.soldCount">🛒 Sold: {{ product.soldCount }}</span>
                     </div>
 
-                    <button class="btn btn-special btn-sm mt-2">Add to Cart</button>
+                    <button class="btn btn-special btn-sm mt-2" (click)="addToCart(product)">Add to Cart</button>
                 </div>
             </div>
         </div>

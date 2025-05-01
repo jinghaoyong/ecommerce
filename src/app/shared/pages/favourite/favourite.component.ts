@@ -13,33 +13,8 @@ import { FavouriteService } from '../../../core/services/favourite/favourite.ser
 })
 export class FavouriteComponent implements OnInit {
   // This component is responsible for displaying the favourite items of the user.  
-  cartItems = [
-    {
-      id: 1,
-      name: 'Wireless Headphones',
-      variation: 'Color: Black',
-      image: 'https://via.placeholder.com/60',
-      price: 59.99,
-      quantity: 1
-    },
-    {
-      id: 2,
-      name: 'Bluetooth Speaker',
-      variation: 'Color: Blue',
-      image: 'https://via.placeholder.com/60',
-      price: 89.50,
-      quantity: 2
-    },
-    {
-      id: 3,
-      name: 'Smartwatch Series 5',
-      variation: 'Size: Medium',
-      image: 'https://via.placeholder.com/60',
-      price: 120.00,
-      quantity: 1
-    }
-  ];
-
+  cartItems?: any[] = [];
+  currentUser?: any;
   constructor(
     private localStorageServ: LocalstorageService,
     private firebaseServ: FirebaseService,
@@ -49,20 +24,43 @@ export class FavouriteComponent implements OnInit {
   }
   ngOnInit(): void {
 
-    const currentUser = this.localStorageServ.getCurrentUser();
-    console.log("currentUser", currentUser);
+    this.currentUser = this.localStorageServ.getCurrentUser();
+    console.log('Current User:', this.currentUser);
 
-    this.firebaseServ.getUserDataById(currentUser?.userId).then((userData) => {
-      console.log("getUserDataById userData", userData);
-      if (userData?.favourite && userData?.favourite?.length > 0) {
-        this.favouriteServ.getProductsByIds(userData?.favourite).then((products) => {
-          console.log("getProductByIds products", products);
-        })
-      }
-    });
+    if (this.currentUser?.userId) {
+      this.loadCartItems(this.currentUser.userId);
+    }
   }
 
+  async loadCartItems(userId: string): Promise<void> {
+    try {
+      this.cartItems = await this.favouriteServ.getShoppingCartByUserId(userId);
+      console.log('Loaded Cart Items:', this.cartItems);
+    } catch (error) {
+      console.error('Error loading cart:', error);
+    }
+  }
+
+
   getTotalPrice(item: any): number {
-    return item.price * item.quantity;
+    return item.quantity * parseFloat(item.discountPrice || item.price);
+  }
+
+  async decreaseQty(item: any): Promise<void> {
+    if (item.quantity > 1) {
+      await this.favouriteServ.updateCartItemQuantity(this.currentUser.userId, item.id, -1);
+      item.quantity--;
+    }
+  }
+
+  async increaseQty(item: any): Promise<void> {
+    await this.favouriteServ.updateCartItemQuantity(this.currentUser.userId, item.id, 1);
+    item.quantity++;
+  }
+
+  async removeItem(item: any): Promise<void> {
+    await this.favouriteServ.removeItemFromCart(this.currentUser.userId, item.id);
+    this.cartItems = (this.cartItems || []).filter(cartItem => cartItem.id !== item.id);
+
   }
 }
