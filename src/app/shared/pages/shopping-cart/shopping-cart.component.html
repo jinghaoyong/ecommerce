@@ -1,0 +1,72 @@
+<div class="container my-4">
+
+    <!-- Header Row -->
+    <div class="cart-header d-flex align-items-center px-3 py-2 border-bottom bg-light fw-semibold">
+      <div class="form-check me-3">
+        <input class="form-check-input" type="checkbox" id="selectAll"
+          [(ngModel)]="selectAllChecked" (change)="toggleSelectAll()" />
+      </div>
+      <div class="flex-grow-1">Product</div>
+      <div class="text-center" style="width: 120px;">Unit Price</div>
+      <div class="text-center" style="width: 120px;">Quantity</div>
+      <div class="text-center" style="width: 120px;">Total Price</div>
+      <div class="text-center" style="width: 100px;">Actions</div>
+    </div>
+  
+    <!-- Product Rows -->
+    <div class="cart-item d-flex align-items-center px-3 py-3 border-bottom" *ngFor="let item of cartItems">
+      <div class="form-check me-3">
+        <input class="form-check-input" type="checkbox"
+          [(ngModel)]="item.selected" (change)="updateSelectedItems()" />
+      </div>
+  
+      <div class="d-flex align-items-center flex-grow-1">
+        <img [src]="item.imageUrl" alt="Product Image" class="me-3 rounded"
+          style="width: 60px; height: 60px; object-fit: cover;" />
+        <div>
+          <div class="fw-bold">{{ item.name }}</div>
+          <div class="text-muted small">{{ item.description }}</div>
+        </div>
+      </div>
+  
+      <div class="text-center" style="width: 120px;">
+        <div class="price-section">
+          <span class="original-price text-muted text-decoration-line-through" *ngIf="item.discountPrice">
+            {{ item.currency }}{{ item.price }}
+          </span>
+          <span class="discount-price fw-bold">
+            {{ item.currency }}{{ (item.discountPrice ?? item.price) | number:'1.2-2' }}
+          </span>
+        </div>
+      </div>
+  
+      <div class="text-center" style="width: 120px;">
+        <div class="d-flex justify-content-center align-items-center">
+          <button class="btn btn-sm btn-outline-secondary" (click)="decreaseQty(item)">-</button>
+          <input type="text" class="form-control text-center mx-2" style="width: 40px;" [value]="item.quantity" readonly />
+          <button class="btn btn-sm btn-outline-secondary" (click)="increaseQty(item)">+</button>
+        </div>
+      </div>
+  
+      <div class="text-center fw-bold text-danger" style="width: 120px;">
+        RM{{ getTotalPrice(item).toFixed(2) }}
+      </div>
+  
+      <div class="text-center" style="width: 100px;">
+        <button class="btn btn-link text-danger p-0" (click)="removeItem(item)">Delete</button>
+      </div>
+    </div>
+  
+  </div>
+  
+  <!-- Floating Total Price Box -->
+  <div *ngIf="selectedItems.length > 0"
+    class="position-fixed bottom-0 end-0 m-4 shadow p-3 bg-white rounded border"
+    style="z-index: 1000; width: 300px;">
+    <div class="fw-bold mb-2">Selected Items Total</div>
+    <div class="d-flex justify-content-between">
+      <span>Total:</span>
+      <span class="fw-bold text-success">RM{{ getSelectedTotal().toFixed(2) }}</span>
+    </div>
+  </div>
+  

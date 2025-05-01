@@ -1,0 +1,14 @@
+.price-section {
+    display: flex;
+    flex-direction: column;
+  
+    .original-price {
+      font-size: 0.8rem;
+    }
+  
+    .discount-price {
+      color: #d9534f; // Bootstrap red
+      font-size: 1rem;
+    }
+  }
+  
