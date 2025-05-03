@@ -8,6 +8,7 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { Tooltip, Popover } from 'bootstrap';
 import { NavbarService } from '../../../core/services/navbar/navbar.service';
+import { ShoppingCartService } from '../../../core/services/shopping-cart/shopping-cart.service';
 
 @Component({
   selector: 'app-navbar',
@@ -30,13 +31,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   searchQuery: string = "";
 
+  cartItemsCount?: any;
 
   constructor(
     private firebaseServ: FirebaseService,
     private titleStringServ: TitlestringService,
     private router: Router,
     private translate: TranslateService,
-    private navbarServ: NavbarService
+    private navbarServ: NavbarService,
+    private shoppingcartServ: ShoppingCartService
   ) {
     this.currentUser = this.firebaseServ.currentUserValue;
     this.translate.setDefaultLang('en'); // Set default language
@@ -62,6 +65,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     console.log("currentUser", this.currentUser)
 
     this.loadTitleString();
+    this.loadCartItemsCount();
 
   }
 
@@ -73,6 +77,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
   async loadTitleString() {
     this.titleString = await this.titleStringServ.getTitleString();
     console.log("loadTitleString", this.titleString)
+  }
+
+  async loadCartItemsCount() {
+    console.log("this.currentUser.userId",this.currentUser.userId)
+    const cartItemsCount = await this.shoppingcartServ.getCartItemCountByUserId(this.currentUser.userId);
+    console.log("cartItemsCount", cartItemsCount)
+    this.cartItemsCount = cartItemsCount
   }
 
 

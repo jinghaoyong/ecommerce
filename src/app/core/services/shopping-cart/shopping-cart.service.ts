@@ -65,6 +65,16 @@ export class ShoppingCartService {
     await setDoc(cartRef, { items: updatedItems });
   }
 
+  async getCartItemCountByUserId(userId: string): Promise<number> {
+    const cartRef = doc(db, 'shoppingCart', userId);
+    const cartSnap: any = await getDoc(cartRef);
+    if (cartSnap.exists()) {
+      const items = cartSnap.data().items || [];
+      return items.reduce((total: number, item: any) => total + (item.quantity || 0), 0);
+    }
+    return 0;
+  }
+  
 
 
 }
