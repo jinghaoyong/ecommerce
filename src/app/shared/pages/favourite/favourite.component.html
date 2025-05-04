@@ -6,8 +6,8 @@
     </div>
     <div class="flex-grow-1">Product</div>
     <div class="text-center" style="width: 120px;">Unit Price</div>
-    <div class="text-center" style="width: 120px;">Quantity</div>
-    <div class="text-center" style="width: 120px;">Total Price</div>
+    <!-- <div class="text-center" style="width: 120px;">Quantity</div>
+    <div class="text-center" style="width: 120px;">Total Price</div> -->
     <div class="text-center" style="width: 100px;">Actions</div>
   </div>
 
@@ -29,7 +29,7 @@
       RM{{ (item.discountPrice || item.price)?.toFixed(2) }}
     </div>
 
-    <div class="text-center" style="width: 120px;">
+    <!-- <div class="text-center" style="width: 120px;">
       <div class="d-flex justify-content-center align-items-center">
         <button class="btn btn-sm btn-outline-secondary" (click)="decreaseQty(item)">-</button>
         <input type="text" class="form-control text-center mx-2" style="width: 40px;" [value]="item.quantity" readonly />
@@ -39,7 +39,7 @@
 
     <div class="text-center fw-bold text-danger" style="width: 120px;">
       RM{{ getTotalPrice(item).toFixed(2) }}
-    </div>
+    </div> -->
 
     <div class="text-center" style="width: 100px;">
       <button class="btn btn-link text-danger p-0">Delete</button>

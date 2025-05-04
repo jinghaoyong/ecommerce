@@ -19,7 +19,10 @@ export class ProductDetailsService {
       const docSnap = await getDoc(productDocRef);
 
       if (docSnap.exists()) {
-        return docSnap.data();
+        return {
+          id: docSnap.id,
+          ...docSnap.data()
+        };
       }
       return null;
     } catch (error) {

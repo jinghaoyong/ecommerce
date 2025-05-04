@@ -94,6 +94,7 @@ export class FavouriteService {
     }
 
     // Check if product already exists in the cart
+    console.log("addItemToShoppingCart : product.id",product.id)
     const alreadyExists = items.some(item => item.id === product.id);
 
     if (alreadyExists) {

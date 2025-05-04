@@ -4,6 +4,7 @@ import { FavouriteService } from '../../../core/services/favourite/favourite.ser
 import { LocalstorageService } from '../../services/localstorage/localstorage.service';
 import { Router } from '@angular/router';
 import { ToastComponent } from '../toast/toast.component';
+import { ShoppingCartService } from '../../../core/services/shopping-cart/shopping-cart.service';
 
 @Component({
   selector: 'app-sales-products',
@@ -18,7 +19,8 @@ export class SalesProductsComponent {
 
 
   constructor(
-    private shoppingCartServ: FavouriteService,
+    // private shoppingCartServ: FavouriteService,
+    private shoppingCartServ: ShoppingCartService,
     private localStorageServ: LocalstorageService,
     private router: Router
   ) {

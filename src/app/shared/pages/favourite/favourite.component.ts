@@ -3,6 +3,7 @@ import { LocalstorageService } from '../../services/localstorage/localstorage.se
 import { FirebaseService } from '../../../core/services/firebase.service';
 import { CommonModule } from '@angular/common';
 import { FavouriteService } from '../../../core/services/favourite/favourite.service';
+import { ShoppingCartService } from '../../../core/services/shopping-cart/shopping-cart.service';
 
 @Component({
   selector: 'app-favourite',
@@ -18,7 +19,8 @@ export class FavouriteComponent implements OnInit {
   constructor(
     private localStorageServ: LocalstorageService,
     private firebaseServ: FirebaseService,
-    private favouriteServ: FavouriteService
+    // private favouriteServ: FavouriteService
+    private favouriteServ: ShoppingCartService
   ) {
 
   }
