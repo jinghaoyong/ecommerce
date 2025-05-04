@@ -60,6 +60,29 @@ export class FavouriteService {
   }
 
 
+  // async addItemToShoppingCart(userId: string, product: any): Promise<void> {
+  //   const cartRef = doc(db, 'shoppingCart', userId);
+  //   const cartSnap: any = await getDoc(cartRef);
+
+  //   let items: any[] = [];
+
+  //   if (cartSnap.exists()) {
+  //     items = cartSnap.data().items || [];
+  //   }
+
+  //   const index = items.findIndex(item => item.id === product.id);
+
+  //   if (index !== -1) {
+  //     // Increase quantity if product already exists
+  //     items[index].quantity = (items[index].quantity || 1) + 1;
+  //   } else {
+  //     // Add new product
+  //     items.push({ ...product, quantity: 1 });
+  //   }
+
+  //   await setDoc(cartRef, { items });
+  // }
+
   async addItemToShoppingCart(userId: string, product: any): Promise<void> {
     const cartRef = doc(db, 'shoppingCart', userId);
     const cartSnap: any = await getDoc(cartRef);
@@ -70,18 +93,22 @@ export class FavouriteService {
       items = cartSnap.data().items || [];
     }
 
-    const index = items.findIndex(item => item.id === product.id);
+    // Check if product already exists in the cart
+    const alreadyExists = items.some(item => item.id === product.id);
 
-    if (index !== -1) {
-      // Increase quantity if product already exists
-      items[index].quantity = (items[index].quantity || 1) + 1;
-    } else {
-      // Add new product
-      items.push({ ...product, quantity: 1 });
+    if (alreadyExists) {
+      // Do nothing, product already in cart
+      console.log('Item already in cart, skipping...');
+      return;
     }
 
+    // Add new product with quantity: 1 (can also remove quantity if irrelevant)
+    items.push({ ...product, quantity: 1 });
+
     await setDoc(cartRef, { items });
+    console.log('Item added to cart');
   }
+
 
   async updateCartItemQuantity(userId: string, productId: string, change: number): Promise<void> {
     const cartRef = doc(db, 'shoppingCart', userId);

@@ -132,3 +132,39 @@
     opacity: 1;
   }
 }
+
+.rating-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  color: #333;
+  gap: 8px;
+
+  .stars {
+      display: flex;
+      gap: 4px;
+  }
+
+  .star {
+      font-size: 20px;
+      transition: transform 0.2s ease-in-out;
+
+      &:hover {
+          transform: scale(1.2);
+          cursor: pointer;
+      }
+
+      &:hover ~ .star {
+          transform: scale(1.1);
+      }
+  }
+
+  .rating-number {
+      font-size: 14px;
+      color: #666;
+      font-weight: 400;
+      padding-left: 8px;
+  }
+}

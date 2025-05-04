@@ -2,29 +2,45 @@
     <div class="row">
         <div *ngFor="let product of filteredProducts" class="col-lg-4 col-md-4 col-sm-6 mb-4">
             <div class="product-card zoom-in">
-                <div class="product-img">
-                    <img [src]="product.imageUrl" alt="{{ product.name }}" class="img-fluid"/>
+                <div class="product-img" style="cursor: pointer;" (click)="goToProductDetails(product)">
+                    <img  [src]="product.imageUrl" alt="{{ product.name }}" class="img-fluid" />
                 </div>
-                <div class="product-details">
+                <div class="product-details" style="cursor: pointer;" (click)="goToProductDetails(product)">
                     <h3 class="product-title">{{ product.name }}</h3>
+
+                    <!-- Rating section moved below title -->
+                    <!-- <div class="mb-3 gap-3">
+                        <div class="rating">
+                            <span *ngFor="let star of [1,2,3,4,5]" class="star">
+                                <i class="bi text-warning" [class.bi-star-fill]="star <= product.rating"
+                                    [class.bi-star]="star > product.rating"></i>
+                            </span>
+                            <span class="ms-2">({{ product.rating }})</span>
+                        </div>
+                    </div> -->
+
                     <p class="product-description">{{ product.description }}</p>
-                    
+
                     <div class="price-section">
-                        <span class="original-price" [class.discounted]="product.discountPrice">{{ product.currency }}{{ product.price }}</span>
-                        <span class="discount-price" *ngIf="product.discountPrice">{{ product.currency }}{{ product.discountPrice }}</span>
+                        <span class="original-price" [class.discounted]="product.discountPrice">{{ product.currency }}{{
+                            product.price }}</span>
+                        <span class="discount-price" *ngIf="product.discountPrice">{{ product.currency }}{{
+                            product.discountPrice }}</span>
                     </div>
-                    
+
                     <div class="product-meta">
-                        <span class="rating">⭐ {{ product.rating }}</span>
                         <!-- <span class="stock" [class.in-stock]="product.stock > 0">
                             {{ product.stock > 0 ? product.stock + ' in stock' : 'Out of Stock' }}
                         </span> -->
-                        <span class="sold" *ngIf="product.soldCount">🛒 Sold: {{ product.soldCount }}</span>
+                        <!-- <span class="sold" *ngIf="product.soldCount">🛒 Sold: {{ product.soldCount }}</span> -->
                     </div>
 
-                    <button class="btn btn-special btn-sm mt-2" (click)="addToCart(product)">Add to Cart</button>
+                    <button class="btn btn-special btn-sm mt-2"
+                        (click)="addToCart(product); $event.stopPropagation()">Add to Cart</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<app-toast #toast></app-toast>

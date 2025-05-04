@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
-import { collection, doc, getDoc, getDocs, getFirestore, limit, orderBy, query, setDoc, where } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, getFirestore, limit, onSnapshot, orderBy, query, setDoc, where } from 'firebase/firestore';
 import { environment } from '../../../../environments/environment';
 
 // Initialize Firebase
@@ -65,16 +65,18 @@ export class ShoppingCartService {
     await setDoc(cartRef, { items: updatedItems });
   }
 
-  async getCartItemCountByUserId(userId: string): Promise<number> {
+  getCartItemCountRealtime(userId: string, callback: (count: number) => void): () => void {
     const cartRef = doc(db, 'shoppingCart', userId);
-    const cartSnap: any = await getDoc(cartRef);
-    if (cartSnap.exists()) {
-      const items = cartSnap.data().items || [];
-      return items.reduce((total: number, item: any) => total + (item.quantity || 0), 0);
-    }
-    return 0;
+    const unsubscribe = onSnapshot(cartRef, (docSnap: any) => {
+      if (docSnap.exists()) {
+        const items = docSnap.data().items || [];
+        const totalCount = items.reduce((total: number, item: any) => total + (item.quantity || 0), 0);
+        callback(totalCount);
+      } else {
+        callback(0);
+      }
+    });
+
+    return unsubscribe; // To stop listening when component is destroyed
   }
-  
-
-
 }

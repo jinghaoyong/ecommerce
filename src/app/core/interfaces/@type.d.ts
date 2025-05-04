@@ -49,3 +49,16 @@ export interface AlertMessage {
     timeRemaining: number | null;
     type: 'inactivity' | 'session' | null
 }
+
+export interface CheckoutItem {
+    productId: string;
+    name: string;
+    price: number;
+    quantity: number;
+    imageUrl?: string;
+}
+
+export interface CheckoutData {
+    items: CheckoutItem[];
+    totalAmount: number;
+}

@@ -4,6 +4,8 @@ import { FirebaseService } from '../../../core/services/firebase.service';
 import { ShoppingCartService } from '../../../core/services/shopping-cart/shopping-cart.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CheckoutData, CheckoutItem } from '../../../core/interfaces/@type';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -23,7 +25,8 @@ export class ShoppingCartComponent implements OnInit {
   constructor(
     private localStorageServ: LocalstorageService,
     private firebaseServ: FirebaseService,
-    private shoppingCartServ: ShoppingCartService
+    private shoppingCartServ: ShoppingCartService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -86,5 +89,24 @@ export class ShoppingCartComponent implements OnInit {
   getSelectedTotal(): number {
     return this.selectedItems.reduce((sum, item) =>
       sum + item.quantity * Number(item.discountPrice ?? item.price ?? 0), 0);
+  }
+
+  onBuySelectedItems() {
+    const checkoutItems: CheckoutItem[] = this.selectedItems.map(item => ({
+      productId: item.id,
+      name: item.name,
+      price: item.discountPrice,
+      quantity: item.quantity,
+      imageUrl: item.imageUrl
+    }));
+
+    const totalAmount = checkoutItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+    const checkoutData: CheckoutData = {
+      items: checkoutItems,
+      totalAmount,
+    };
+
+    this.router.navigate(['/checkout'], { state: checkoutData });
   }
 }

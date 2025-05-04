@@ -32,6 +32,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   searchQuery: string = "";
 
   cartItemsCount?: any;
+  unsubscribeCart?: () => void;
 
   constructor(
     private firebaseServ: FirebaseService,
@@ -81,9 +82,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   async loadCartItemsCount() {
     console.log("this.currentUser.userId",this.currentUser.userId)
-    const cartItemsCount = await this.shoppingcartServ.getCartItemCountByUserId(this.currentUser.userId);
-    console.log("cartItemsCount", cartItemsCount)
-    this.cartItemsCount = cartItemsCount
+    this.unsubscribeCart = this.shoppingcartServ.getCartItemCountRealtime(this.currentUser.userId, (count) => {
+      this.cartItemsCount = count;
+    });
+    console.log("cartItemsCount", this.cartItemsCount)
   }
 
 
@@ -127,8 +129,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
     // this.router.navigate(['/search'], { queryParams: { q: category } });
   }
 
-  ngOnDestroy(): void {
+ngOnDestroy(): void {
+  if (this.unsubscribeCart) {
+    this.unsubscribeCart();
   }
+}
 
 
 }

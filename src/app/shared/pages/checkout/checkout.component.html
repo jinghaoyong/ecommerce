@@ -1,0 +1,22 @@
+<div class="checkout-container container py-5 px-3 px-md-5">
+  <h2 class="checkout-title mb-4">Checkout</h2>
+
+  <div *ngFor="let item of checkoutData.items" class="checkout-item d-flex align-items-start p-3 mb-3 shadow-sm rounded-3 bg-white">
+    <img [src]="item.imageUrl" alt="{{ item.name }}" class="item-image me-3 rounded-2">
+    <div class="item-info flex-grow-1">
+      <h5 class="mb-1">{{ item.name }}</h5>
+      <p class="mb-1 text-muted">Quantity: {{ item.quantity }}</p>
+      <p class="mb-0 fw-semibold text-primary">Price: ${{ item.price | number:'1.2-2' }}</p>
+    </div>
+  </div>
+
+  <div class="checkout-summary bg-light p-4 rounded-3 shadow-sm mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 class="mb-0">Total</h4>
+      <h4 class="mb-0 text-success">${{ checkoutData.totalAmount | number:'1.2-2' }}</h4>
+    </div>
+    <button class="btn btn-success btn-lg w-100 fw-bold" (click)="proceedToPayment()">
+      <i class="bi bi-lock-fill me-2"></i> Proceed to Payment
+    </button>
+  </div>
+</div>

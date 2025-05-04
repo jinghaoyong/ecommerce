@@ -1,0 +1,45 @@
+.checkout-container {
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  max-width: 800px;
+  margin: auto;
+
+  .checkout-title {
+    font-weight: 700;
+    text-align: center;
+    color: #333;
+  }
+
+  .checkout-item {
+    transition: box-shadow 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .item-image {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+    }
+
+    .item-info {
+      h5 {
+        font-size: 1.1rem;
+      }
+
+      p {
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  .checkout-summary {
+    background: #fff;
+    border: 1px solid #dee2e6;
+  }
+
+  button.btn-success {
+    font-size: 1.1rem;
+  }
+}
