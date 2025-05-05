@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { SalesProductsComponent } from '../sales-products/sales-products.component';
 import { SalesCategoriesService } from '../../../core/services/sales-categories/sales-categories.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -38,7 +39,8 @@ export class SalesCategoriesComponent implements OnInit {
   products?: any[]
 
   constructor(
-    private salesCategoriesServ: SalesCategoriesService
+    private salesCategoriesServ: SalesCategoriesService,
+    private router: Router
   ) {
     this.getBestSeller();
   }
@@ -83,5 +85,9 @@ export class SalesCategoriesComponent implements OnInit {
     } catch (error) {
       console.error('Error loading special contents:', error);
     }
+  }
+
+  viewMore() {
+    this.router.navigate(['/searchresults'], { queryParams: { category: this.selectedCategory } });
   }
 }
