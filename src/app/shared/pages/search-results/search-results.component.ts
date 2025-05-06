@@ -8,6 +8,7 @@ import { NgbNavModule, NgbAccordionModule, NgbTooltipModule, NgbModule } from '@
 import { FormsModule } from '@angular/forms';
 import { DiscountProductsService } from '../../../core/services/discount-products/discount-products.service';
 import { SpinnerService } from '../../services/spinner/spinner.service';
+import { SalesCategoriesService } from '../../../core/services/sales-categories/sales-categories.service';
 @Component({
   selector: 'app-search-results',
   standalone: true,
@@ -93,7 +94,8 @@ export class SearchResultsComponent implements OnInit {
     private specialContentServ: SpecialContentService,
     private route: ActivatedRoute,
     private productServ: DiscountProductsService,
-    private spinServ: SpinnerService
+    private spinServ: SpinnerService,
+    private salesCategoriesServ: SalesCategoriesService
   ) {
     scrollToTop();
     this.loadSpecialContents();
@@ -132,6 +134,34 @@ export class SearchResultsComponent implements OnInit {
             this.spinServ.requestEnded();
             console.error('Error fetching seasonal products:', error);
           });
+        } else if (this.selectedCheckbox === "bestSeller") {
+          this.salesCategoriesServ.getBestSellers().then(products => {
+            this.products = products;
+            this.spinServ.requestEnded();
+          }).catch(error => {
+            this.spinServ.requestEnded();
+            console.error('Error fetching seasonal products:', error);
+          });
+        }
+        else if (this.selectedCheckbox === "newArrivals") {
+          this.salesCategoriesServ.getNewArrivals().then(products => {
+            this.products = products;
+            this.spinServ.requestEnded();
+          }).catch(error => {
+            this.spinServ.requestEnded();
+            console.error('Error fetching seasonal products:', error);
+          });
+        }
+        else if (this.selectedCheckbox === "mostViewed") {
+          this.salesCategoriesServ.getMostViewed().then(products => {
+            this.products = products;
+            this.spinServ.requestEnded();
+          }).catch(error => {
+            this.spinServ.requestEnded();
+            console.error('Error fetching seasonal products:', error);
+          });
+        } else {
+          this.spinServ.requestEnded();
         }
 
       }
@@ -176,6 +206,24 @@ export class SearchResultsComponent implements OnInit {
       });
     } else if (this.selectedCheckbox === "Crystal Collections 2025") {
       this.productServ.getThisYearProducts().then(products => {
+        this.products = products;
+      }).catch(error => {
+        console.error('Error fetching seasonal products:', error);
+      });
+    }else if (this.selectedCheckbox === "bestSeller") {
+      this.salesCategoriesServ.getBestSellers().then(products => {
+        this.products = products;
+      }).catch(error => {
+        console.error('Error fetching seasonal products:', error);
+      });
+    }else if (this.selectedCheckbox === "newArrivals") {
+      this.salesCategoriesServ.getNewArrivals().then(products => {
+        this.products = products;
+      }).catch(error => {
+        console.error('Error fetching seasonal products:', error);
+      });
+    }else if (this.selectedCheckbox === "mostViewed") {
+      this.salesCategoriesServ.getMostViewed().then(products => {
         this.products = products;
       }).catch(error => {
         console.error('Error fetching seasonal products:', error);
