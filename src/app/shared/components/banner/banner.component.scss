@@ -1,5 +1,4 @@
 @import './../../../../styles';
-
 .carousel-control-prev,
 .carousel-control-next {
   width: 8%; /* Adjust button size */
@@ -52,5 +51,36 @@
   #carouselExampleCaptions .carousel-item img {
     height: 600px;
     object-fit: cover;
+  }
+}
+@media (max-width: 767.98px) {
+  #carouselExampleCaptions .carousel-item img {
+    height: 250px;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .carousel-caption {
+    background-color: rgba(0, 0, 0, 0.5); // semi-transparent black
+    color: #fff;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    bottom: 10%;
+    top: auto;
+    transform: translateX(-50%);
+    width: 80%;
+    border-radius: 0.5rem;
+  }
+
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    width: 25px;
+    height: 25px;
+    background-size: 50%;
+  }
+
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 12%; // Smaller space on mobile
   }
 }
