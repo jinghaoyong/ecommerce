@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { DiscountProductsService } from '../../../core/services/discount-products/discount-products.service';
 import { SpinnerService } from '../../services/spinner/spinner.service';
 import { SalesCategoriesService } from '../../../core/services/sales-categories/sales-categories.service';
+import { DocumentData } from 'firebase/firestore';
 @Component({
   selector: 'app-search-results',
   standalone: true,
@@ -76,6 +77,8 @@ export class SearchResultsComponent implements OnInit {
     },
   ];
 
+  lastProductsDoc: DocumentData | undefined = undefined;
+
   allSpecialContents?: any[] = [];
 
   selectedCheckbox: string | null = null;
@@ -89,6 +92,7 @@ export class SearchResultsComponent implements OnInit {
   recordCount: number = 0;
   showingEntriesText?: string;
   sortNameOrder: number = 0;
+
 
   constructor(
     private specialContentServ: SpecialContentService,
@@ -135,13 +139,7 @@ export class SearchResultsComponent implements OnInit {
             console.error('Error fetching seasonal products:', error);
           });
         } else if (this.selectedCheckbox === "bestSeller") {
-          this.salesCategoriesServ.getBestSellers().then(products => {
-            this.products = products;
-            this.spinServ.requestEnded();
-          }).catch(error => {
-            this.spinServ.requestEnded();
-            console.error('Error fetching seasonal products:', error);
-          });
+           this.loadInitialBestSellers()
         }
         else if (this.selectedCheckbox === "newArrivals") {
           this.salesCategoriesServ.getNewArrivals().then(products => {
@@ -210,19 +208,20 @@ export class SearchResultsComponent implements OnInit {
       }).catch(error => {
         console.error('Error fetching seasonal products:', error);
       });
-    }else if (this.selectedCheckbox === "bestSeller") {
-      this.salesCategoriesServ.getBestSellers().then(products => {
-        this.products = products;
-      }).catch(error => {
-        console.error('Error fetching seasonal products:', error);
-      });
-    }else if (this.selectedCheckbox === "newArrivals") {
+    } else if (this.selectedCheckbox === "bestSeller") {
+      // this.salesCategoriesServ.getBestSellers().then(products => {
+      //   this.products = products;
+      // }).catch(error => {
+      //   console.error('Error fetching seasonal products:', error);
+      // });
+      this.loadInitialBestSellers()
+    } else if (this.selectedCheckbox === "newArrivals") {
       this.salesCategoriesServ.getNewArrivals().then(products => {
         this.products = products;
       }).catch(error => {
         console.error('Error fetching seasonal products:', error);
       });
-    }else if (this.selectedCheckbox === "mostViewed") {
+    } else if (this.selectedCheckbox === "mostViewed") {
       this.salesCategoriesServ.getMostViewed().then(products => {
         this.products = products;
       }).catch(error => {
@@ -233,6 +232,25 @@ export class SearchResultsComponent implements OnInit {
 
   pageChange(event: any) {
 
+  }
+
+  async loadInitialBestSellers() {
+
+    const newItems = await this.salesCategoriesServ.getBestSellersPaginated(undefined);
+    if (newItems.length > 0) {
+      this.products = newItems;
+      this.lastProductsDoc = newItems[newItems.length - 1]._doc; // ✅ Store last doc here
+      console.log("loadInitialBestSellers this.lastProductsDoc", this.lastProductsDoc)
+    }
+     this.spinServ.requestEnded();
+  }
+
+  async loadMoreBestSellers(selectedCategory: any) {
+    const newItems = await this.salesCategoriesServ.getBestSellersPaginated(this.lastProductsDoc, selectedCategory);
+    if (newItems.length > 0 && this.products) {
+      this.lastProductsDoc = newItems[newItems.length - 1]._doc;
+      this.products = [...this.products, ...newItems];
+    }
   }
 
   pageLengthChange(event: any) {

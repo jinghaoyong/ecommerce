@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
-import { collection, getDocs, getFirestore, limit, orderBy, query, where } from 'firebase/firestore';
+import { collection, DocumentData, getDocs, getFirestore, limit, orderBy, query, startAfter, where } from 'firebase/firestore';
 import { environment } from '../../../../environments/environment';
 
 // Initialize Firebase
@@ -64,6 +64,36 @@ export class SalesCategoriesService {
       ...doc.data(),
     }));
   }
+
+  // Best Seller: with pagination
+  async getBestSellersPaginated(lastDoc?: DocumentData, category?: string): Promise<any[]> {
+    let productQuery;
+
+    if (category) {
+      productQuery = query(
+        collection(db, "products"),
+        where("categories", "array-contains", category),
+        orderBy("soldCount", "desc"),
+        ...(lastDoc ? [startAfter(lastDoc)] : []),
+        limit(6)
+      );
+    } else {
+      productQuery = query(
+        collection(db, "products"),
+        orderBy("soldCount", "desc"),
+        ...(lastDoc ? [startAfter(lastDoc)] : []),
+        limit(6)
+      );
+    }
+
+    const snapshot = await getDocs(productQuery);
+    return snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+      _doc: doc // Return doc itself if you need to pass it as lastDoc next time
+    }));
+  }
+
 
   // New Arrival: Sorted by createdAt (latest first)
   async getNewArrivals(category?: string): Promise<any[]> {
