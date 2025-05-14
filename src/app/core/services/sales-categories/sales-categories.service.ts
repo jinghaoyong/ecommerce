@@ -48,7 +48,7 @@ export class SalesCategoriesService {
     if (category) {
       productQuery = query(
         collection(db, "products"),
-        where("categories", "array-contains", category),
+        where("category", "array-contains", category),
         orderBy("soldCount", "desc"), limit(6)
       );
     } else {
@@ -72,7 +72,7 @@ export class SalesCategoriesService {
     if (category) {
       productQuery = query(
         collection(db, "products"),
-        where("categories", "array-contains", category),
+        where("category", "array-contains", category),
         orderBy("soldCount", "desc"),
         ...(lastDoc ? [startAfter(lastDoc)] : []),
         limit(6)

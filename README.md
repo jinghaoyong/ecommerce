@@ -114,6 +114,8 @@ categories in nava bar ✅
 2025(current year) collection (jsut filter out those product which is create on 2025 asc) ✅
 top picker (filterd out those sell the most) ✅
 summer(current season) product(jsut show within the quarter period) ✅
+product details ✅
+favourite ✅
 
 ## Pending To do
 prefix translate
@@ -132,12 +134,13 @@ add chinese and melayu language for nav bar
 copy shopee that filter at left side, product at right side
 
 then other pending page
------ view more btn and its functions
-- product details
--favourite
-- user info pop up
-- blogpost details page(blogpost can put at topbar)
-details also copy to shopee
+----- view more btn and its functions 🔜  done by thursday 
+----- change the three category to single product 🔜  done by thursday  
+----- search bar and search function (list the concept) 🔜  done by friday bus
+----- search bar and search function (implement the concept) 🔜  done by saturday
+----- blogpost from codepulse 🔜  done by sunday 
+----- cater phone screen view 🔜  done by sunday 
+- user info pop up chinese english
 ## env file environment.ts
 export const environment = {
   production: false,

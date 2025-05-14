@@ -139,7 +139,7 @@ export class SearchResultsComponent implements OnInit {
             console.error('Error fetching seasonal products:', error);
           });
         } else if (this.selectedCheckbox === "bestSeller") {
-           this.loadInitialBestSellers()
+          this.loadInitialBestSellers()
         }
         else if (this.selectedCheckbox === "newArrivals") {
           this.salesCategoriesServ.getNewArrivals().then(products => {
@@ -242,14 +242,18 @@ export class SearchResultsComponent implements OnInit {
       this.lastProductsDoc = newItems[newItems.length - 1]._doc; // ✅ Store last doc here
       console.log("loadInitialBestSellers this.lastProductsDoc", this.lastProductsDoc)
     }
-     this.spinServ.requestEnded();
+    this.spinServ.requestEnded();
   }
 
-  async loadMoreBestSellers(selectedCategory: any) {
-    const newItems = await this.salesCategoriesServ.getBestSellersPaginated(this.lastProductsDoc, selectedCategory);
-    if (newItems.length > 0 && this.products) {
-      this.lastProductsDoc = newItems[newItems.length - 1]._doc;
-      this.products = [...this.products, ...newItems];
+  async loadMoreBestSellers() {
+    console.log("this.selectedCheckbox", this.selectedCheckbox)
+    if (this.selectedCheckbox) {
+      const newItems = await this.salesCategoriesServ.getBestSellersPaginated(this.lastProductsDoc, undefined);
+      console.log("newItems",newItems)
+      if (newItems.length > 0 && this.products) {
+        this.lastProductsDoc = newItems[newItems.length - 1]._doc;
+        this.products = [...this.products, ...newItems];
+      }
     }
   }
 
