@@ -32,7 +32,7 @@
         </div>
     </div>
 </div> -->
-<div *ngIf="!allSpecialContents; else bannerContent">
+<div *ngIf="!products; else bannerContent">
     <div class="container">
         <div class="row">
             <!-- First Banner Skeleton -->
@@ -74,44 +74,48 @@
 <ng-template #bannerContent>
     <div class="container">
         <div class="row">
-            <div class="col-lg-7 offset-lg-4 col-md-6 col-sm-12">
-                <div class="banner__item">
+            <div *ngFor="let product of products?.slice(0, 3); let i = index" [ngSwitch]="i">
+  
+                <!-- First block -->
+                <div *ngSwitchCase="0" class="col-lg-7 offset-lg-4 col-md-6 col-sm-12">
+                  <div class="banner__item">
                     <div class="banner__item__pic">
-                        <img [src]="specialContent1?.[0]?.imageUrl" alt="" width="100%" height="350">
+                      <img [src]="product?.imageUrl" alt="" width="100%" height="350">
                     </div>
                     <div class="banner__item__text">
-                        <h2>{{ specialContent1?.[0]?.title }}</h2>
-                        <a [routerLink]="['/searchresults']"
-                            [queryParams]="{ category: specialContent1?.[0]?.title }">Shop now</a>
+                      <h2>{{ product?.name }}</h2>
+                      <a (click)="goToProductDetails(product)" style="cursor: pointer;">View Details</a>
                     </div>
+                  </div>
                 </div>
-            </div>
-
-            <div class="col-lg-5 col-md-6 col-sm-12">
-                <div class="banner__item banner__item--middle">
+              
+                <!-- Second block -->
+                <div *ngSwitchCase="1" class="col-lg-5 col-md-6 col-sm-12">
+                  <div class="banner__item banner__item--middle">
                     <div class="banner__item__pic">
-                        <img [src]="specialContent2?.[0]?.imageUrl" alt="" width="100%" height="350">
+                      <img [src]="product?.imageUrl" alt="" width="100%" height="350">
                     </div>
                     <div class="banner__item__text">
-                        <h2>{{ specialContent2?.[0]?.title }}</h2>
-                        <a [routerLink]="['/searchresults']"
-                            [queryParams]="{ category: specialContent2?.[0]?.title }">Shop now</a>
+                      <h2>{{ product?.name }}</h2>
+                      <a (click)="goToProductDetails(product)" style="cursor: pointer;">View Details</a>
                     </div>
+                  </div>
                 </div>
-            </div>
-
-            <div class="col-lg-7 col-md-6 col-sm-12">
-                <div class="banner__item banner__item--last">
+              
+                <!-- Third block -->
+                <div *ngSwitchCase="2" class="col-lg-7 col-md-6 col-sm-12">
+                  <div class="banner__item banner__item--last">
                     <div class="banner__item__pic">
-                        <img [src]="specialContent3?.[0]?.imageUrl" alt="" width="100%" height="350">
+                      <img [src]="product?.imageUrl" alt="" width="100%" height="350">
                     </div>
                     <div class="banner__item__text">
-                        <h2>{{ specialContent3?.[0]?.title }}</h2>
-                        <a [routerLink]="['/searchresults']"
-                            [queryParams]="{ category: specialContent3?.[0]?.title }">Shop now</a>
+                      <h2>{{ product?.name }}</h2>
+                      <a (click)="goToProductDetails(product)" style="cursor: pointer;">View Details</a>
                     </div>
+                  </div>
                 </div>
-            </div>
+              
+              </div>
 
         </div>
     </div>

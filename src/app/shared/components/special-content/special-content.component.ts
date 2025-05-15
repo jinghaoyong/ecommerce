@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SpecialContentService } from '../../../core/services/special-content/special-content.service';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { SalesCategoriesService } from '../../../core/services/sales-categories/sales-categories.service';
 
 @Component({
   selector: 'app-special-content',
@@ -17,10 +18,15 @@ export class SpecialContentComponent implements OnInit, OnDestroy {
   specialContent2?: any;
   specialContent3?: any;
 
+  products?: any[] = [];
+
   constructor(
-    private specialContentServ: SpecialContentService
+    private specialContentServ: SpecialContentService,
+    private salesCategoriesServ: SalesCategoriesService,
+    private router: Router
   ) {
-    this.loadSpecialContents();
+    // this.loadSpecialContents();
+    this.getMostViewProducts();
   }
 
   async loadSpecialContents() {
@@ -35,6 +41,18 @@ export class SpecialContentComponent implements OnInit, OnDestroy {
     }
   }
 
+  async getMostViewProducts() {
+    try {
+      this.products = await this.salesCategoriesServ.getMostViewed();
+      console.log("most view products", this.products)
+    } catch (error) {
+      console.error('Error loading this.salesCategoriesServ.getMostViewed();:', error);
+    }
+  }
+
+  goToProductDetails(product: any) {
+    this.router.navigate(['/productdetails', product.id]);
+  }
 
   ngOnDestroy(): void {
   }
