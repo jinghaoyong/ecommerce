@@ -9,7 +9,8 @@ import { FormsModule } from '@angular/forms';
 import { DiscountProductsService } from '../../../core/services/discount-products/discount-products.service';
 import { SpinnerService } from '../../services/spinner/spinner.service';
 import { SalesCategoriesService } from '../../../core/services/sales-categories/sales-categories.service';
-import { DocumentData } from 'firebase/firestore';
+import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
+import { ProductsService } from '../../../core/services/products/products.service';
 @Component({
   selector: 'app-search-results',
   standalone: true,
@@ -18,7 +19,7 @@ import { DocumentData } from 'firebase/firestore';
   styleUrl: './search-results.component.scss'
 })
 export class SearchResultsComponent implements OnInit {
-  products?: any[] = [
+  products: any[] = [
     {
       image: 'assets/images/product1.jpg',
       title: '[13-17 inch] Laptop Sleeve Soft Case',
@@ -93,13 +94,19 @@ export class SearchResultsComponent implements OnInit {
   showingEntriesText?: string;
   sortNameOrder: number = 0;
 
+  // for firestore pagination
+  lastVisible: QueryDocumentSnapshot<DocumentData> | null = null;
+  allLoaded: boolean = false;
+  loading: boolean = false;
+
 
   constructor(
     private specialContentServ: SpecialContentService,
     private route: ActivatedRoute,
     private productServ: DiscountProductsService,
     private spinServ: SpinnerService,
-    private salesCategoriesServ: SalesCategoriesService
+    private salesCategoriesServ: SalesCategoriesService,
+    private productsServ: ProductsService
   ) {
     scrollToTop();
     this.loadSpecialContents();
@@ -151,13 +158,17 @@ export class SearchResultsComponent implements OnInit {
           });
         }
         else if (this.selectedCheckbox === "mostViewed") {
-          this.salesCategoriesServ.getMostViewed().then(products => {
-            this.products = products;
-            this.spinServ.requestEnded();
-          }).catch(error => {
-            this.spinServ.requestEnded();
-            console.error('Error fetching seasonal products:', error);
-          });
+          this.loadMore();
+          this.spinServ.requestEnded();
+          // this.productsServ.getMostViewedProducts().then((res: any) => {
+          //   this.products = res?.products
+          //   this.lastVisible = res?.lastVisible;
+
+          //   this.spinServ.requestEnded();
+          // }).catch(error => {
+          //   this.spinServ.requestEnded();
+          //   console.error('Error fetching seasonal products:', error);
+          // });
         } else {
           this.spinServ.requestEnded();
         }
@@ -245,15 +256,34 @@ export class SearchResultsComponent implements OnInit {
     this.spinServ.requestEnded();
   }
 
-  async loadMoreBestSellers() {
-    console.log("this.selectedCheckbox", this.selectedCheckbox)
-    if (this.selectedCheckbox) {
-      const newItems = await this.salesCategoriesServ.getBestSellersPaginated(this.lastProductsDoc, undefined);
-      console.log("newItems",newItems)
-      if (newItems.length > 0 && this.products) {
-        this.lastProductsDoc = newItems[newItems.length - 1]._doc;
-        this.products = [...this.products, ...newItems];
+  async loadMore() {
+    // console.log("this.selectedCheckbox", this.selectedCheckbox)
+    // if (this.selectedCheckbox) {
+    //   const newItems = await this.salesCategoriesServ.getBestSellersPaginated(this.lastProductsDoc, undefined);
+    //   console.log("newItems", newItems)
+    //   if (newItems.length > 0 && this.products) {
+    //     this.lastProductsDoc = newItems[newItems.length - 1]._doc;
+    //     this.products = [...this.products, ...newItems];
+    //   }
+    // }
+    if (this.loading || this.allLoaded) return;
+
+    this.loading = true;
+    this.products = [];
+    try {
+      console.log("this.lastVisible", this.lastVisible)
+      const result = await this.productsServ.getMostViewedProducts(this.lastVisible);
+      console.log("result", result)
+      this.products.push(...result.products);
+      this.lastVisible = result.lastVisible;
+
+      if (result.products.length < 6) {
+        this.allLoaded = true;
       }
+    } catch (error) {
+      console.error('Failed to load products', error);
+    } finally {
+      this.loading = false;
     }
   }
 

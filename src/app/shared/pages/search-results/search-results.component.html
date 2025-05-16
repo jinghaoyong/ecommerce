@@ -47,8 +47,8 @@
             <div class="mt-2">
                 <app-sales-products [filteredProducts]="products"></app-sales-products>
 
-                <div class="text-center mt-3">
-                    <div class="view-more-btn" (click)="loadMoreBestSellers()">
+                <div class="text-center mt-3" [hidden]="allLoaded">
+                    <div class="view-more-btn" (click)="loadMore()">
                         <button class="btn btn-special">View More</button>
                     </div>
                   </div>
