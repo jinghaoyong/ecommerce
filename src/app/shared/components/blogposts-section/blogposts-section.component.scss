@@ -1,0 +1,45 @@
+@import './../../../../styles';
+
+.blog-section {
+    background: linear-gradient(to bottom right, $primary-color, #ffffff);
+
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: $primary-color;
+    }
+
+    .section-subtitle {
+        font-size: 1.25rem;
+        color: $primary-color;
+        margin-top: 0.5rem;
+    }
+
+    .blog-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+        &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .card-text {
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        .btn {
+            font-weight: 500;
+        }
+    }
+}

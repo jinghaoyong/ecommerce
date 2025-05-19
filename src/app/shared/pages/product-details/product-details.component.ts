@@ -61,7 +61,10 @@ export class ProductDetailsComponent implements OnInit {
   }
   onAddToCart(product: any) {
     const currentUser = this.localStorageServ.getCurrentUser();
-    if (!currentUser?.userId) return;
+    if (!currentUser?.userId) {
+      this.toastComponent.show('Please log in first.', 'error');
+      return;
+    }
 
     this.shoppingCartServ.addItemToShoppingCart(currentUser.userId, product)
       .then(() => this.toastComponent.show('Product added to cart!', 'success'))
@@ -69,6 +72,11 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   onBuyNow(product: any) {
+    const currentUser = this.localStorageServ.getCurrentUser();
+    if (!currentUser?.userId) {
+      this.toastComponent.show('Please log in first.', 'error');
+      return;
+    }
     const checkoutItem: CheckoutItem = {
       productId: product.id,
       name: product.name,

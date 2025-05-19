@@ -4,6 +4,7 @@
   width: 100%;
   padding: 2% 10%;
   background-color: #f3f3f3;
+  min-height: 85vh;
 }
 
 .sorting-bar {
@@ -94,4 +95,12 @@
 .btn-special {
   background-color: $primary-color;
   color: $secondary-color;
+}
+
+
+.no-products {
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  color: #555;
 }

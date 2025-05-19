@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
-import { collection, getDocs, getFirestore, limit, orderBy, query, Timestamp, where } from 'firebase/firestore';
+import { collection, DocumentData, getDocs, getFirestore, limit, orderBy, query, QueryDocumentSnapshot, startAfter, Timestamp, where } from 'firebase/firestore';
 import { environment } from '../../../../environments/environment';
 
 
@@ -95,29 +95,66 @@ export class DiscountProductsService {
     return products;
   }
 
-  async getProductsByHashtagSearch(queryString: string): Promise<any[]> {
-    // Basic query to get products that have hashtags field
-    const productQuery = query(
-      collection(db, "products"),
-      where("hashtags", "!=", null) // get documents where hashtags array exists
-    );
-
-    const productsSnapshot = await getDocs(productQuery);
+  async getProductsByHashtagSearch(
+    queryString: string,
+    lastVisible?: QueryDocumentSnapshot<DocumentData> | null
+  ): Promise<{
+    products: any[];
+    lastVisible: QueryDocumentSnapshot<DocumentData> | null;
+  }> {
+    const PAGE_SIZE = 6;
     const lowercaseQuery = queryString.toLowerCase();
 
-    const matchingProducts = productsSnapshot.docs
-      .map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-      }))
-      .filter((product: any) =>
-        product.hashtags?.some((tag: string) =>
-          tag.toLowerCase().includes(lowercaseQuery)
-        )
-      );
+    try {
+      const productsRef = collection(db, "products");
+      let productQuery;
 
-    return matchingProducts;
+      if (lastVisible) {
+        productQuery = query(
+          productsRef,
+          where("hashtags", "!=", null),
+          orderBy("hashtags"),
+          startAfter(lastVisible),
+          limit(PAGE_SIZE)
+        );
+      } else {
+        productQuery = query(
+          productsRef,
+          where("hashtags", "!=", null),
+          orderBy("hashtags"),
+          limit(PAGE_SIZE)
+        );
+      }
+
+      const productsSnapshot = await getDocs(productQuery);
+
+      // Filter based on lowercase includes logic
+      const matchingProducts = productsSnapshot.docs
+        .map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }))
+        .filter((product: any) =>
+          product.hashtags?.some((tag: string) =>
+            tag.toLowerCase().includes(lowercaseQuery)
+          )
+        );
+
+      const newLastVisible =
+        productsSnapshot.docs.length > 0
+          ? productsSnapshot.docs[productsSnapshot.docs.length - 1]
+          : null;
+
+      return {
+        products: matchingProducts,
+        lastVisible: newLastVisible,
+      };
+    } catch (error) {
+      console.error("Error fetching hashtag products:", error);
+      throw error;
+    }
   }
+
 
   // Function to determine the season based on the month
   getSeasonFromMonth(month: number): string {

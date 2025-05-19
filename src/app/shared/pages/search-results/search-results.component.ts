@@ -11,6 +11,8 @@ import { SpinnerService } from '../../services/spinner/spinner.service';
 import { SalesCategoriesService } from '../../../core/services/sales-categories/sales-categories.service';
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import { ProductsService } from '../../../core/services/products/products.service';
+import { SPECIAL_CONTENT_STRING } from '../../../core/constants/enum';
+import { QuerySearchService } from '../../services/querySearch/query-search.service';
 @Component({
   selector: 'app-search-results',
   standalone: true,
@@ -106,7 +108,8 @@ export class SearchResultsComponent implements OnInit {
     private productServ: DiscountProductsService,
     private spinServ: SpinnerService,
     private salesCategoriesServ: SalesCategoriesService,
-    private productsServ: ProductsService
+    private productsServ: ProductsService,
+    private querySearchServ: QuerySearchService
   ) {
     scrollToTop();
     this.loadSpecialContents();
@@ -117,79 +120,51 @@ export class SearchResultsComponent implements OnInit {
       this.selectedCheckbox = params['category'];
       this.hashtagQ = params['hashtag'];
 
-      // if (this.selectedCheckbox) {
-      //   this.spinServ.requestStarted();
-      //   if (this.selectedCheckbox === "Summer hot product") {
-      //     console.log("this.selectedCheckbox ", this.selectedCheckbox)
-      //     this.productServ.getSeasonalProducts().then(products => {
-      //       this.products = products;
-      //       this.spinServ.requestEnded();
-      //     }).catch(error => {
-      //       this.spinServ.requestEnded();
-      //       console.error('Error fetching seasonal products:', error);
-      //     });
-      //     console.log("this.products", this.products)
-      //   } else if (this.selectedCheckbox === "Top picker") {
-      //     this.productServ.getTopPickedProducts().then(products => {
-      //       this.products = products;
-      //       this.spinServ.requestEnded();
-      //     }).catch(error => {
-      //       this.spinServ.requestEnded();
-      //       console.error('Error fetching seasonal products:', error);
-      //     });
-      //   } else if (this.selectedCheckbox === "Crystal Collections 2025") {
-      //     this.productServ.getThisYearProducts().then(products => {
-      //       this.products = products;
-      //       this.spinServ.requestEnded();
-      //     }).catch(error => {
-      //       this.spinServ.requestEnded();
-      //       console.error('Error fetching seasonal products:', error);
-      //     });
-      //   } else if (this.selectedCheckbox === "bestSeller") {
-      //     this.loadInitialBestSellers()
-      //   }
-      //   else if (this.selectedCheckbox === "newArrivals") {
-      //     this.salesCategoriesServ.getNewArrivals().then(products => {
-      //       this.products = products;
-      //       this.spinServ.requestEnded();
-      //     }).catch(error => {
-      //       this.spinServ.requestEnded();
-      //       console.error('Error fetching seasonal products:', error);
-      //     });
-      //   }
-      //   else if (this.selectedCheckbox === "mostViewed") {
-      //     this.loadMore(this.selectedCheckbox);
-      //     this.spinServ.requestEnded();
-      //     // this.productsServ.getMostViewedProducts().then((res: any) => {
-      //     //   this.products = res?.products
-      //     //   this.lastVisible = res?.lastVisible;
-
-      //     //   this.spinServ.requestEnded();
-      //     // }).catch(error => {
-      //     //   this.spinServ.requestEnded();
-      //     //   console.error('Error fetching seasonal products:', error);
-      //     // });
-      //   } else {
-      //     this.spinServ.requestEnded();
-      //   }
-
-      // }
       this.loadMore();
 
       if (this.hashtagQ) {
-        this.spinServ.requestStarted();
+
         this.products = [];
         console.log("this.hashtagQ", this.hashtagQ)
-        this.productServ.getProductsByHashtagSearch(this.hashtagQ).then(products => {
-          this.products = products;
-          this.spinServ.requestEnded();
-        }).catch(error => {
-          console.error('Error fetching products by hashtag:', error);
-        });
+        this.loadMoreHashtagSearch(this.hashtagQ);
+        // this.productServ.getProductsByHashtagSearch(this.hashtagQ).then(products => {
+        //   if (products?.length > 0) this.products = products;
+
+        //   this.spinServ.requestEnded();
+        // }).catch(error => {
+        //   console.error('Error fetching products by hashtag:', error);
+        //   this.spinServ.requestEnded();
+        // });
       }
     });
 
 
+  }
+
+  async loadMoreHashtagSearch(query: string) {
+    this.spinServ.requestStarted();
+    if (this.loading || this.allLoaded) {
+      this.spinServ.requestEnded();
+      return;
+    }
+
+    this.loading = true;
+    try {
+      const result = await this.productServ.getProductsByHashtagSearch(query, this.lastVisible);
+      this.products.push(...result.products);
+      this.lastVisible = result.lastVisible;
+
+      if (result.products.length < 6) {
+        this.allLoaded = true;
+      }
+      this.spinServ.requestEnded();
+    } catch (error) {
+      console.error('Hashtag search failed', error);
+      this.spinServ.requestEnded();
+    } finally {
+      this.loading = false;
+      this.spinServ.requestEnded();
+    }
   }
 
 
@@ -198,52 +173,13 @@ export class SearchResultsComponent implements OnInit {
   }
 
   onCheckboxChange(title: string) {
+    this.querySearchServ.clearQuery();
     // console.log("title", title)
     this.lastVisible = null;
     this.allLoaded = false;
     this.loading = false;
     this.selectedCheckbox = this.selectedCheckbox === title ? null : title;
     this.loadMore();
-    // if (this.selectedCheckbox === "Summer hot product") {
-    //   console.log("this.selectedCheckbox ", this.selectedCheckbox)
-    //   this.productServ.getSeasonalProducts().then(products => {
-    //     this.products = products;
-    //   }).catch(error => {
-    //     console.error('Error fetching seasonal products:', error);
-    //   });
-    //   console.log("this.products", this.products)
-    // } else if (this.selectedCheckbox === "Top picker") {
-    //   this.productServ.getTopPickedProducts().then(products => {
-    //     this.products = products;
-    //   }).catch(error => {
-    //     console.error('Error fetching seasonal products:', error);
-    //   });
-    // } else if (this.selectedCheckbox === "Crystal Collections 2025") {
-    //   this.productServ.getThisYearProducts().then(products => {
-    //     this.products = products;
-    //   }).catch(error => {
-    //     console.error('Error fetching seasonal products:', error);
-    //   });
-    // } else if (this.selectedCheckbox === "bestSeller") {
-    //   // this.salesCategoriesServ.getBestSellers().then(products => {
-    //   //   this.products = products;
-    //   // }).catch(error => {
-    //   //   console.error('Error fetching seasonal products:', error);
-    //   // });
-    //   this.loadInitialBestSellers()
-    // } else if (this.selectedCheckbox === "newArrivals") {
-    //   this.salesCategoriesServ.getNewArrivals().then(products => {
-    //     this.products = products;
-    //   }).catch(error => {
-    //     console.error('Error fetching seasonal products:', error);
-    //   });
-    // } else if (this.selectedCheckbox === "mostViewed") {
-    //   this.salesCategoriesServ.getMostViewed().then(products => {
-    //     this.products = products;
-    //   }).catch(error => {
-    //     console.error('Error fetching seasonal products:', error);
-    //   });
-    // }
   }
 
   pageChange(event: any) {
@@ -274,28 +210,33 @@ export class SearchResultsComponent implements OnInit {
       console.log("this.lastVisible", this.lastVisible)
       let result: any;
 
-      if (this.selectedCheckbox === "bestSeller") {
+      if (this.selectedCheckbox === SPECIAL_CONTENT_STRING.BEST_SELLING) {
         result = await this.productsServ.getBestSellingProducts(this.lastVisible);
-      } else if (this.selectedCheckbox === "newArrivals") {
+      } else if (this.selectedCheckbox === SPECIAL_CONTENT_STRING.NEW_ARRIVAL) {
         result = await this.productsServ.getNewArrivalProducts(this.lastVisible);
-      } else if (this.selectedCheckbox === "mostViewed") {
+      } else if (this.selectedCheckbox === SPECIAL_CONTENT_STRING.MOST_VIEWED) {
         result = await this.productsServ.getMostViewedProducts(this.lastVisible);
       }
 
-      console.log("result", result)
-      this.products.push(...result.products);
-      this.lastVisible = result.lastVisible;
+      if (result?.products?.length > 0) {
+        console.log("result", result)
+        this.products.push(...result.products);
+        this.lastVisible = result.lastVisible;
 
-      if (result.products.length < 6) {
-        this.allLoaded = true;
+        if (result.products.length < 6) {
+          this.allLoaded = true;
+        }
       }
 
 
       this.spinServ.requestEnded();
     } catch (error) {
+
       console.error('Failed to load products', error);
+      this.spinServ.requestEnded();
     } finally {
       this.loading = false;
+      this.spinServ.requestEnded();
     }
   }
 

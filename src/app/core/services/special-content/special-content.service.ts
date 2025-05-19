@@ -17,14 +17,11 @@ export class SpecialContentService {
 
   async getSpecialContent(): Promise<any[]> {
     try {
-      // Get a snapshot of the 'specialContent' collection
       const specialContentSnapshot = await getDocs(collection(db, 'specialContent'));
 
-      // Map through the snapshot to build the array
-      const specialContent: any[] = specialContentSnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data()
-      }));
+      const specialContent: any[] = specialContentSnapshot.docs
+        .map((doc) => ({ id: doc.id, ...doc.data() }))
+        .filter((item: any) => item.enable === true); // filter here
 
       return specialContent;
     } catch (error) {
@@ -32,5 +29,6 @@ export class SpecialContentService {
       return [];
     }
   }
+
 
 }

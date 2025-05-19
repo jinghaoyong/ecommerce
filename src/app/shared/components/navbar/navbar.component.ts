@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { FirebaseService } from '../../../core/services/firebase.service';
 import { UserData } from '../../../core/interfaces/@type';
 import { CommonModule } from '@angular/common';
@@ -9,6 +9,8 @@ import { FormsModule } from '@angular/forms';
 import { Tooltip, Popover } from 'bootstrap';
 import { NavbarService } from '../../../core/services/navbar/navbar.service';
 import { ShoppingCartService } from '../../../core/services/shopping-cart/shopping-cart.service';
+import { Subscription } from 'rxjs';
+import { QuerySearchService } from '../../services/querySearch/query-search.service';
 
 @Component({
   selector: 'app-navbar',
@@ -19,6 +21,7 @@ import { ShoppingCartService } from '../../../core/services/shopping-cart/shoppi
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   readonly prefixTranslate = 'NAVBAR.';
+  private subscription = new Subscription();
   isStickyNav = false; // Default is non-sticky
 
   currentUser?: any;
@@ -40,7 +43,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private router: Router,
     private translate: TranslateService,
     private navbarServ: NavbarService,
-    private shoppingcartServ: ShoppingCartService
+    private shoppingcartServ: ShoppingCartService,
+    private route: ActivatedRoute,
+    private querySearchServ: QuerySearchService
   ) {
     this.currentUser = this.firebaseServ.currentUserValue;
     this.translate.setDefaultLang('en'); // Set default language
@@ -58,21 +63,38 @@ export class NavbarComponent implements OnInit, OnDestroy {
         const stickyPages = ['/']; // Add paths where navbar should be sticky
         this.isStickyNav = stickyPages.includes(event.url);
         console.log("stickyPages.includes(event.url)", stickyPages.includes(event.url))
+
+        this.route.queryParams.subscribe(params => {
+          const hashtagQ = params['hashtag'];
+          if (hashtagQ) {
+            console.log("nav top bar hashtagQ", hashtagQ)
+          } else {
+            console.log("nav top bar hashtagQ not found")
+            this.searchQuery = "";
+          }
+        });
       }
     });
 
-    console.log("currentUser", this.firebaseServ.currentUserValue)
+    console.log("navbar currentUser", this.firebaseServ.currentUserValue)
     this.currentUser = this.firebaseServ.currentUserValue;
     console.log("currentUser", this.currentUser)
 
-    this.loadTitleString();
-    this.loadCartItemsCount();
+    if (this.currentUser) {
+      this.loadTitleString();
+      this.loadCartItemsCount();
+    }
 
+    this.subscription = this.querySearchServ.clearQuery$.subscribe(() => {
+      // Handle the clear action here
+      this.searchQuery = '';
+    });
   }
 
   ngAfterViewInit(): void {
     const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
     popoverTriggerList.map((popoverTriggerEl) => new Popover(popoverTriggerEl));
+    console.log("ngAfterViewInit()")
   }
 
   async loadTitleString() {
@@ -81,7 +103,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   async loadCartItemsCount() {
-    console.log("this.currentUser.userId",this.currentUser.userId)
+    console.log("this.currentUser.userId", this.currentUser.userId)
     this.unsubscribeCart = this.shoppingcartServ.getCartItemCountRealtime(this.currentUser.userId, (count) => {
       this.cartItemsCount = count;
     });
@@ -129,11 +151,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
     // this.router.navigate(['/search'], { queryParams: { q: category } });
   }
 
-ngOnDestroy(): void {
-  if (this.unsubscribeCart) {
-    this.unsubscribeCart();
+  ngOnDestroy(): void {
+    if (this.subscription) this.subscription.unsubscribe();
+
+    if (this.unsubscribeCart) {
+      this.unsubscribeCart();
+    }
   }
-}
 
 
 }
