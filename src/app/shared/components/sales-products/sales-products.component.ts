@@ -3,18 +3,17 @@ import { Component, Input, ViewChild } from '@angular/core';
 import { FavouriteService } from '../../../core/services/favourite/favourite.service';
 import { LocalstorageService } from '../../services/localstorage/localstorage.service';
 import { Router } from '@angular/router';
-import { ToastComponent } from '../toast/toast.component';
 import { ShoppingCartService } from '../../../core/services/shopping-cart/shopping-cart.service';
+import { ToastService } from '../../services/toast/toast.service';
 
 @Component({
   selector: 'app-sales-products',
   standalone: true,
-  imports: [CommonModule, ToastComponent],
+  imports: [CommonModule],
   templateUrl: './sales-products.component.html',
   styleUrl: './sales-products.component.scss'
 })
 export class SalesProductsComponent {
-  @ViewChild('toast') toastComponent!: ToastComponent;
   @Input() filteredProducts?: any;
 
 
@@ -22,7 +21,8 @@ export class SalesProductsComponent {
     // private shoppingCartServ: FavouriteService,
     private shoppingCartServ: ShoppingCartService,
     private localStorageServ: LocalstorageService,
-    private router: Router
+    private router: Router,
+    private toastServ: ToastService
   ) {
 
   }
@@ -32,8 +32,8 @@ export class SalesProductsComponent {
     if (!currentUser?.userId) return;
 
     this.shoppingCartServ.addItemToShoppingCart(currentUser.userId, product)
-      .then(() => this.toastComponent.show('Product added to cart!', 'success'))
-      .catch(() => this.toastComponent.show('Failed to add product.', 'error'));
+      .then(() => this.toastServ.show('Product added to cart!', 'success'))
+      .catch(() => this.toastServ.show('Failed to add product.', 'error'));
   }
 
   goToProductDetails(product: any) {

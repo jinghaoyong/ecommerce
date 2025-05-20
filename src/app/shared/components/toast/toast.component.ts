@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { ToastData, ToastService } from '../../services/toast/toast.service';
 
 @Component({
   selector: 'app-toast',
@@ -8,14 +9,22 @@ import { Component, Input } from '@angular/core';
   styleUrl: './toast.component.scss'
 })
 export class ToastComponent {
-  @Input() message: string = '';
-  @Input() variant: 'success' | 'error' | 'warning' = 'success';
-  @Input() duration: number = 3000;
-
+  message: string = '';
+  variant: 'success' | 'error' | 'warning' = 'success';
+  duration: number = 3000;
   visible: boolean = false;
+
   private timeoutRef: any;
 
-  show(message: string, variant: 'success' | 'error' | 'warning' = 'success', duration: number = 3000) {
+  constructor(private toastService: ToastService) { }
+
+  ngOnInit() {
+    this.toastService.toastState$.subscribe((data: ToastData) => {
+      this.show(data.message, data.variant, data.duration);
+    });
+  }
+
+  show(message: string, variant: 'success' | 'error' | 'warning', duration: number) {
     this.message = message;
     this.variant = variant;
     this.duration = duration;
@@ -29,3 +38,4 @@ export class ToastComponent {
     this.visible = false;
   }
 }
+

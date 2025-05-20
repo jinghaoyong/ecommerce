@@ -5,18 +5,17 @@ import { ProductDetailsService } from '../../../core/services/product-details/pr
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalstorageService } from '../../services/localstorage/localstorage.service';
 import { ShoppingCartService } from '../../../core/services/shopping-cart/shopping-cart.service';
-import { ToastComponent } from '../../components/toast/toast.component';
 import { CheckoutData, CheckoutItem } from '../../../core/interfaces/@type';
+import { ToastService } from '../../services/toast/toast.service';
 
 @Component({
   selector: 'app-product-details',
   standalone: true,
-  imports: [CommonModule, FormsModule, ToastComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss'
 })
 export class ProductDetailsComponent implements OnInit {
-  @ViewChild('toast') toastComponent!: ToastComponent;
   productId?: any;
 
   productDetails?: any;
@@ -26,7 +25,8 @@ export class ProductDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private localStorageServ: LocalstorageService,
     private shoppingCartServ: ShoppingCartService,
-    private router: Router
+    private router: Router,
+    private toastServ: ToastService
   ) {
 
   }
@@ -62,19 +62,19 @@ export class ProductDetailsComponent implements OnInit {
   onAddToCart(product: any) {
     const currentUser = this.localStorageServ.getCurrentUser();
     if (!currentUser?.userId) {
-      this.toastComponent.show('Please log in first.', 'error');
+      this.toastServ.show('Please log in first.', 'error');
       return;
     }
 
     this.shoppingCartServ.addItemToShoppingCart(currentUser.userId, product)
-      .then(() => this.toastComponent.show('Product added to cart!', 'success'))
-      .catch(() => this.toastComponent.show('Failed to add product.', 'error'));
+      .then(() => this.toastServ.show('Product added to cart!', 'success'))
+      .catch(() => this.toastServ.show('Failed to add product.', 'error'));
   }
 
   onBuyNow(product: any) {
     const currentUser = this.localStorageServ.getCurrentUser();
     if (!currentUser?.userId) {
-      this.toastComponent.show('Please log in first.', 'error');
+      this.toastServ.show('Please log in first.', 'error');
       return;
     }
     const checkoutItem: CheckoutItem = {
